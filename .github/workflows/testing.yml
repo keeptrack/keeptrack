@@ -27,4 +27,5 @@ jobs:
       - uses: actions/checkout@v2
       - run: docker build -f Dockerfile -t keeptrack:latest-test .
       - run: docker kill keeptrack-testing || true
+      - run: docker rm keeptrack-testing || true
       - run: docker run -p 8080:80 --name keeptrack-testing keeptrack:latest-test &
