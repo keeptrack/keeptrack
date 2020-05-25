@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - testing
+      - github_actions
 
 jobs:
   check:
