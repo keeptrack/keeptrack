@@ -25,4 +25,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: docker build -f Dockerfile -t keeptrack:latest .
-      - run: docker run -p 80:80 keeptrack &
+      - run: docker kill keeptrack-production || true
+      - run: docker rm keeptrack-production || true
+      - run: docker run -p 80:80 --name keeptrack-production keeptrack:latest &
