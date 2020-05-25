@@ -10,8 +10,7 @@ jobs:
     runs-on: [self-hosted]
     steps:
     - uses: actions/checkout@v2
-    - run: python3 manage.py check  
-
+    - run: python3 manage.py check
   test:
     name: Tests
     needs: check
@@ -19,7 +18,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: python3 manage.py test
-
   deploy:
     name: Deployment to production
     needs: [check, test]
