@@ -9,20 +9,20 @@ jobs:
     name: Django system check
     runs-on: [self-hosted]
     steps:
-    - uses: actions/checkout@v2
-    - run: python3 manage.py check
+      - uses: actions/checkout@v2
+      - run: python3 manage.py check
   test:
     name: Tests
     needs: check
     runs-on: [self-hosted]
     steps:
-    - uses: actions/checkout@v2
-    - run: python3 manage.py test
+      - uses: actions/checkout@v2
+      - run: python3 manage.py test
   deploy:
     name: Deployment to production
     needs: [check, test]
     runs-on: [self-hosted]
     steps:
-    - uses: actions/checkout@v2
-    - run: docker build -f Dockerfile -t keeptrack:latest .
-    - run: docker run -p 80:80 keeptrack &
+      - uses: actions/checkout@v2
+      - run: docker build -f Dockerfile -t keeptrack:latest .
+      - run: docker run -p 80:80 keeptrack &
