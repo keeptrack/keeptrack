@@ -1,0 +1,28 @@
+name: testing branch
+on:
+  push:
+    branches:
+      - testing
+
+jobs:
+  check:
+    name: Django system check
+    runs-on: [self-hosted]
+    steps:
+      - uses: actions/checkout@v2
+      - run: python3 manage.py check
+  test:
+    name: Tests
+    needs: check
+    runs-on: [self-hosted]
+    steps:
+      - uses: actions/checkout@v2
+      - run: python3 manage.py test
+  deploy:
+    name: Deployment to testing
+    needs: [check, test]
+    runs-on: [self-hosted]
+    steps:
+      - uses: actions/checkout@v2
+      - run: docker build -f Dockerfile -t keeptrack:latest-test .
+      - run: docker run -p 8080:80 keeptrack:latest-test &
