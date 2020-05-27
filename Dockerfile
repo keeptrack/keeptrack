@@ -1,7 +1,6 @@
 FROM httpd
 RUN apt-get update
 RUN apt-get install python3 python3-pip -y
-RUN pip3 install Django==3.0.6
 RUN apt-get install wget -y
 RUN mkdir /root/mod_wsgi \
     && cd /root/mod_wsgi \
@@ -13,6 +12,8 @@ RUN mkdir /root/mod_wsgi \
     && cp src/server/.libs/mod_wsgi.so /usr/local/apache2/modules/mod_wsgi.so \
     && cd /root \
     && rm -R mod_wsgi
+COPY requirements.txt /root/requirements.txt
+RUN pip3 install -r /root/requirements.txt && rm /root/requirements.txt
 COPY docker_httpd.conf /usr/local/apache2/conf/httpd.conf
 RUN mkdir /root/keeptrack
 ADD . /root/keeptrack/
