@@ -7,64 +7,58 @@
 <body>
 <h1 style="text-align: center">Society Hire Enquiries</h1>
 
-<div style="display: flex; justify-content: center; align-items: center; padding-top: 2em">
-    <div style="display: table-cell; vertical-align: center">
-        <div>
-            <h4 style="text-align: left">Name <span style="color: red">*</span></h4>
-            <form style="text-align: left">
+<form method="post" action="{% url 'details' %}">
+    {% csrf_token %}
+    <div style="display: flex; justify-content: center; align-items: center; padding-top: 2em">
+        <div style="display: table-cell; vertical-align: center">
+            <div>
+                <h4 style="text-align: left">Name <span style="color: red">*</span></h4>
                 <label id="name">
-                    <input type="text" size="50">
+                    <input name="name" type="text" size="50" value="{{ name }}">
                 </label>
-            </form>
-        </div>
-        <div style="padding-top: 1em">
-            <h4 style="text-align: left">Email <span style="color: red">*</span></h4>
-            <form style="text-align: left">
+            </div>
+            <div style="padding-top: 1em">
+                <h4 style="text-align: left">Email <span style="color: red">*</span></h4>
                 <label id="email">
-                    <input type="text" size="50">
+                    <input type="text" name="email" value="{{ email }}" size="50">
                 </label>
-            </form>
-        </div>
-        <div style="padding-top: 1em">
-            <h4 style="text-align: left">CID (if Imperial student)</h4>
-            <form style="text-align: left">
+            </div>
+            <div style="padding-top: 1em">
+                <h4 style="text-align: left">CID (if Imperial student)</h4>
                 <label id="cid">
-                    <input type="text" size="50">
+                    <input type="text" size="50" name="cid" value="{{ cid }}">
                 </label>
-            </form>
-        </div>
-        <div style="padding-top: 1em">
-            <div style="text-align: left; float: left">
-                <h4>Hire From</h4>
-                <form>
+            </div>
+            <div style="padding-top: 1em">
+                <div style="text-align: left; float: left">
+                    <h4>Hire From</h4>
                     <label id="hire_from">
-                        <input type="date" size="25">
+                        <input type="date" size="25" name="hire_from" value="{{ hire_from }}">
                     </label>
-                </form>
-            </div>
-            <div style="text-align: left; float: left; padding-left: 1em">
-                <h4>Hire From</h4>
-                <form>
+                </div>
+                <div style="text-align: left; float: left; padding-left: 1em">
+                    <h4>Hire From</h4>
                     <label id="hire_to">
-                        <input type="date" size="25">
+                        <input type="date" size="25" name="hire_to" value="{{ hire_to }}">
                     </label>
-                </form>
+                </div>
             </div>
-        </div>
-        <div style="padding-top: 6em">
-            <p>If you'd like to request specific equipment or service, have a look at <a>what we offer</a> and let us
-                know in the box below.<br/>It's fine if you're not sure what you need. Let us know what you're up to
-                and we'll help you decide.</p>
-            <form>
+            <div style="padding-top: 6em">
+                <p>If you'd like to request specific equipment or service, have a look at <a>what we offer</a> and let
+                    us
+                    know in the box below.<br/>It's fine if you're not sure what you need. Let us know what you're up to
+                    and we'll help you decide.</p>
                 <label id="info">
-                    <input type="text" size="50" style="height: 10em">
+                    <input name="information" type="text" size="50" style="height: 10em" value="{{ information }}">
                 </label>
-            </form>
-        </div>
-        <div style="padding-top: 2em">
-            <button type="button" id="submit">SUBMIT</button>
+            </div>
+            <div style="padding-top: 2em">
+                <label>
+                    <input type="submit" class="button" value="SUBMIT" name="submit">
+                </label>
+            </div>
         </div>
     </div>
-</div>
+</form>
 </body>
 </html>
