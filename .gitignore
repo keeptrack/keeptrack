@@ -3,3 +3,4 @@ env/
 *.pyc
 .idea/
 venv/
+skeleton_log.txt
