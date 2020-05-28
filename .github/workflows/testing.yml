@@ -35,4 +35,4 @@ jobs:
       - run: docker rm keeptrack-testing || true
       - env:
           SECRET: ${{ secrets.DJANGO_SECRET_KEY }}
-        run: docker run --env SECRET_KEY=$SECRET --env APP_DEBUG=True --env PORT=8080 -p 8080:8080 --name keeptrack-testing keeptrack:latest-test &
+        run: docker run --env SECRET_KEY=$SECRET --env APP_DEBUG=True --env PORT=8080 -p 8080:8080 --name keeptrack-testing -d keeptrack:latest-test
