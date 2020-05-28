@@ -1,5 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+import os
 
 
 def index(request):
@@ -18,7 +19,8 @@ def details(request):
 
 
 def log(name, email, hire_from, hire_to, information):
-    f = open("skeleton_log.txt", "w")
+    current_dir = os.path.dirname(__file__)
+    f = open(os.path.join(current_dir, "skeleton_log.txt"), "w")
     f.write(name + "\n")
     f.write(email + "\n")
     f.write(hire_from + "\n")

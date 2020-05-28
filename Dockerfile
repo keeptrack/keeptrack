@@ -14,10 +14,8 @@ RUN mkdir /root/mod_wsgi \
     && rm -R mod_wsgi
 COPY requirements.txt /root/requirements.txt
 RUN pip3 install -r /root/requirements.txt && rm /root/requirements.txt
-COPY docker_httpd.conf /usr/local/apache2/conf/httpd.conf
-RUN mkdir /root/keeptrack
-ADD . /root/keeptrack/
-RUN rm /root/keeptrack/docker_httpd.conf /root/keeptrack/Dockerfile
-RUN chmod +x /root
+RUN mkdir /var/django && chown -R daemon:daemon /var/django
+ADD --chown=daemon:daemon . /var/django/
+RUN mv /var/django/docker_httpd.conf /usr/local/apache2/conf/httpd.conf
 EXPOSE 80
 CMD ["httpd-foreground"]
