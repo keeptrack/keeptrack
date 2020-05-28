@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ['APP_DEBUG'] == 1
+DEBUG = os.environ['APP_DEBUG'] == '1'
 
 ALLOWED_HOSTS = ['146.169.41.89', '127.0.0.1', 'keeptrack-imperial.herokuapp.com']
 
