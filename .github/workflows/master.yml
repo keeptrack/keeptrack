@@ -10,21 +10,29 @@ jobs:
     runs-on: [self-hosted]
     steps:
       - uses: actions/checkout@v2
-      - run: python3 manage.py check
+      - env:
+          SECRET_KEY: dummy
+          APP_DEBUG: False
+        run: python3 manage.py check
   test:
     name: Tests
     needs: check
     runs-on: [self-hosted]
     steps:
       - uses: actions/checkout@v2
-      - run: python3 manage.py test
+      - env:
+          SECRET_KEY: dummy
+          APP_DEBUG: False
+        run: python3 manage.py test
   deploy:
     name: Deployment to production
     needs: [check, test]
     runs-on: [self-hosted]
     steps:
       - uses: actions/checkout@v2
-      - run: docker build -f Dockerfile -t keeptrack:latest .
-      - run: docker kill keeptrack-production || true
-      - run: docker rm keeptrack-production || true
-      - run: docker run -p 80:80 --name keeptrack-production keeptrack:latest &
+      - env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_TOKEN }}
+        run: heroku container:push -a keeptrack-imperial web
+      - env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_TOKEN }}
+        run: heroku container:release -a keeptrack-imperial web
