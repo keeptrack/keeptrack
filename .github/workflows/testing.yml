@@ -10,14 +10,18 @@ jobs:
     runs-on: [self-hosted]
     steps:
       - uses: actions/checkout@v2
-      - run: python3 manage.py check
+      - env:
+          SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+        run: python3 manage.py check
   test:
     name: Tests
     needs: check
     runs-on: [self-hosted]
     steps:
       - uses: actions/checkout@v2
-      - run: python3 manage.py test
+      - env:
+          SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+        run: python3 manage.py test
   deploy:
     name: Deployment to testing
     needs: [check, test]
@@ -27,4 +31,6 @@ jobs:
       - run: docker build -f Dockerfile -t keeptrack:latest-test .
       - run: docker kill keeptrack-testing || true
       - run: docker rm keeptrack-testing || true
-      - run: docker run -p 8080:80 --name keeptrack-testing keeptrack:latest-test &
+      - env:
+          SECRET: ${{ secrets.DJANGO_SECRET_KEY }}
+        run: docker run --env SECRET_KEY=$SECRET -p 8080:80 --name keeptrack-testing keeptrack:latest-test &
