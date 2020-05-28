@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
       - env:
           SECRET_KEY: dummy
-          APP_DEBUG: False
+          APP_DEBUG: 0
         run: python3 manage.py check
   test:
     name: Tests
@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v2
       - env:
           SECRET_KEY: dummy
-          APP_DEBUG: False
+          APP_DEBUG: 0
         run: python3 manage.py test
   deploy:
     name: Deployment to production
