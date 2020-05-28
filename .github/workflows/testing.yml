@@ -12,6 +12,7 @@ jobs:
       - uses: actions/checkout@v2
       - env:
           SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+          APP_DEBUG: True
         run: python3 manage.py check
   test:
     name: Tests
@@ -21,6 +22,7 @@ jobs:
       - uses: actions/checkout@v2
       - env:
           SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+          APP_DEBUG: True
         run: python3 manage.py test
   deploy:
     name: Deployment to testing
@@ -33,4 +35,4 @@ jobs:
       - run: docker rm keeptrack-testing || true
       - env:
           SECRET: ${{ secrets.DJANGO_SECRET_KEY }}
-        run: docker run --env SECRET_KEY=$SECRET -p 8080:80 --name keeptrack-testing keeptrack:latest-test &
+        run: docker run --env SECRET_KEY=$SECRET --env APP_DEBUG=True --env PORT=8080 -p 8080:8080 --name keeptrack-testing keeptrack:latest-test &
