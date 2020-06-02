@@ -1,64 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>KeepTrack</title>
-</head>
-<body>
-<h1 style="text-align: center">Society Hire Enquiries</h1>
+{% extends 'hire/base.html' %}
+{% block 'body' %}
+
+{% load widget_tweaks %}
+
+<div class="container">
+<h1>Society Hire Enquiries</h1>
+
+{% if note %}
+<div class="hire-note">{{ note }}</div>
+{%endif%}
 
 <form method="post" action="{% url 'details' %}">
     {% csrf_token %}
-    <div style="display: flex; justify-content: center; align-items: center; padding-top: 2em">
-        <div style="display: table-cell; vertical-align: center">
-            <div>
-                <h4 style="text-align: left">Name <span style="color: red">*</span></h4>
-                <label id="name">
-                    <input name="name" type="text" size="50" value="{{ name }}">
-                </label>
-            </div>
-            <div style="padding-top: 1em">
-                <h4 style="text-align: left">Email <span style="color: red">*</span></h4>
-                <label id="email">
-                    <input type="text" name="email" value="{{ email }}" size="50">
-                </label>
-            </div>
-            <div style="padding-top: 1em">
-                <h4 style="text-align: left">CID (if Imperial student)</h4>
-                <label id="cid">
-                    <input type="text" size="50" name="cid" value="{{ cid }}">
-                </label>
-            </div>
-            <div style="padding-top: 1em">
-                <div style="text-align: left; float: left">
-                    <h4>Hire From</h4>
-                    <label id="hire_from">
-                        <input type="date" size="25" name="hire_from" value="{{ hire_from }}">
-                    </label>
-                </div>
-                <div style="text-align: left; float: left; padding-left: 1em">
-                    <h4>Hire From</h4>
-                    <label id="hire_to">
-                        <input type="date" size="25" name="hire_to" value="{{ hire_to }}">
-                    </label>
-                </div>
-            </div>
-            <div style="padding-top: 6em">
-                <p>If you'd like to request specific equipment or service, have a look at <a>what we offer</a> and let
-                    us
-                    know in the box below.<br/>It's fine if you're not sure what you need. Let us know what you're up to
-                    and we'll help you decide.</p>
-                <label id="info">
-                    <input name="information" type="text" size="50" style="height: 10em" value="{{ information }}">
-                </label>
-            </div>
-            <div style="padding-top: 2em">
-                <label>
-                    <input type="submit" class="button" value="SUBMIT" name="submit">
-                </label>
-            </div>
-        </div>
+    {% for field in form %}
+    <div class="form-group">
+        {{field.label}} {% if field.field.required %} <span style="color: red">*</span> {% endif %}
+        {% render_field field class="form-control" %}
+        {{field.errors}}
     </div>
+    {% endfor %}
+    <input type="submit" class="button" value="SUBMIT" name="submit">
 </form>
-</body>
-</html>
+
+</div>
+
+{% endblock %}
