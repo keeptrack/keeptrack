@@ -1,8 +1,9 @@
 from django.db import models
 
+
 # Hire request.
 class HireRequest(models.Model):
-    # Hiree details
+    # Hire details
     name = models.CharField(max_length=64)
     email = models.EmailField(max_length=254)
     cid = models.CharField(max_length=16, blank=True)
