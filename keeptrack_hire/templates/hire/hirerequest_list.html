@@ -1,0 +1,35 @@
+{% extends 'common/base.html' %}
+{% block 'body' %}
+
+<script type="text/javascript">
+    function f(url) { alert("Redirect to " + url) }
+</script>
+
+<div class="container">
+<h1>List of upcoming hires</h1>
+
+<table>
+    <header>
+        <td>ID</td>
+        <td>Name</td>
+        <td>From</td>
+        <td>To</td>
+    </header>
+    {% for item in object_list %}
+    <tr onclick=>
+        <td>{{item.id}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.hire_from}}</td>
+        <td>{{item.hire_to}}</td>
+        <td>
+            <a href="{% url 'keeptrack_hire:edit_hire' item.id %}">
+                EDIT
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+</div>
+
+{% endblock %}
