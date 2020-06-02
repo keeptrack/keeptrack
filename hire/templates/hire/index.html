@@ -10,7 +10,7 @@
 <div class="hire-note">{{ note }}</div>
 {%endif%}
 
-<form method="post" action="{% url 'details' %}">
+<form method="post" action="{% url 'hire:details' %}">
     {% csrf_token %}
     {% for field in form %}
     <div class="form-group">
