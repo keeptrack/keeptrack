@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'hire',
+    'keeptrack.common',
     'widget_tweaks',
 ]
 
