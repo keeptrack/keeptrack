@@ -36,8 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'hire',
-    'schedule',
-    'djangobower'
+    'keeptrack.common',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -115,16 +115,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
-STATICFILES_FINDERS = {
-    'djangobower.finders.BowerFinder'
-}
-
-BOWER_COMPONENTS_ROOT = '/PROJECT_ROOT/components/'
-
-BOWER_INSTALLED_APPS = (
-    'jquery',
-    'jquery-ui',
-    'bootstrap'
-)
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
