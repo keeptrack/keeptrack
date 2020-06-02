@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'hire',
     'keeptrack.common',
     'widget_tweaks',
+    'equipment'
 ]
 
 MIDDLEWARE = [
