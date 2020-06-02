@@ -1,3 +1,88 @@
+body {
+    margin-left:auto;
+    margin-right:auto;
+    width:80%;
+}
+
 h1 {
     text-align:center;
+}
+
+#toolbar {
+    width:100%;
+    overflow:hidden;
+    margin-bottom:10px;
+}
+
+.left {
+    float:left;
+}
+
+.right {
+    float:right;
+}
+
+#filter_toolbar {
+    width:100%;
+    overflow:hidden;
+    margin-bottom:10px;
+    display:table;
+    table-layout:fixed;
+    border-spacing:5px;
+    border-collapse:separate;
+}
+
+#filter_toolbar input {
+    background:white;
+    border-color:gray;
+    border-style:solid;
+    border-width:1px;
+    border-radius:5px;
+    padding:5px;
+    box-sizing:border-box;
+    width:100%;
+}
+
+#filter_toolbar span {
+    display:table-cell;
+    text-align:center;
+}
+
+#table table, #table th {
+    border-color:gray;
+    border-style:solid;
+    border-width:1px;
+    border-radius:5px;
+}
+
+#table th, #table td {
+    white-space:nowrap;
+}
+
+#table input {
+    width:100%;
+    box-sizing:border-box;
+    border-color:#bfbfbf;
+    border-style:solid;
+    border-width:1px;
+    border-radius:5px;
+    padding:5px;
+}
+
+#table input[type="checkbox"] {
+    width:auto;
+    margin:0;
+}
+
+button {
+    background:none;
+    border-style:solid;
+    border-color:gray;
+    border-width:2px;
+    border-radius:5px;
+    padding:5px;
+}
+
+.emphasise {
+    background:lightblue;
 }

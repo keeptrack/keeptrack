@@ -9,5 +9,44 @@
   </head>
   <body>
     <h1>Equipment Overview</h1>
+    <div id="toolbar">
+      <div class="left">
+	<button type="button">Add New Asset</button>
+	<button type="button">Edit Selected Asset</button>
+      </div>
+      <div class="right">
+	<button type="button" class="emphasise">Commit changes</button>
+      </div>
+    </div>
+    <div id="filter_toolbar">
+      <span><input type="text" name="category" placeholder="Filter by category" /></span>
+      <span><input type="text" name="brand" placeholder="Filter by brand" /></span>
+      <span><input type="text" name="name" placeholder="Filter by name" /></span>
+      <span><input type="text" name="condition" placeholder="Filter by condition" /></span>
+    </div>
+    <div id="table">
+      <table style="width:100%">
+	<tr>
+	  <th>UID</th>
+	  <th>Category</th>
+	  <th>Brand</th>
+	  <th>Name</th>
+	  <th>Condition</th>
+	  <th>Next Hire Date</th>
+	  <th>Hire Price</th>
+	</tr>
+	{% for equipment in equipment_list %}
+	<tr>
+	  <td><input type="checkbox" name="{{ equipment.uid }}" /> {{ equipment.uid }}</td>
+	  <td><input type="text" value="{{ equipment.category }}" /></td>
+	  <td><input type="text" value="{{ equipment.brand }}" /></td>
+	  <td><input type="text" value="{{ equipment.name }}" /></td>
+	  <td><input type="text" value="{{ equipment.condition }}" /></td>
+	  <td>{{ equipment.next_hire_date }}</td>
+	  <td><input type="number" value="{{ equipment.hire_price }}" min="0" /></td>
+	</tr>
+	{% endfor %}
+      </table>
+    </div>
   </body>
 </html>
