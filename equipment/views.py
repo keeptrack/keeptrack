@@ -11,8 +11,11 @@ def index(request):
                 "brand": "Canon",
                 "name": "9000",
                 "condition": "Good",
+                "value": "2000",
+                "storage_location": "Cupboard",
                 "next_hire_date": "31 July",
-                "hire_price": "10"
+                "hire_price": "10",
+                "notes": ""
             },
             {
                 "uid": 2,
@@ -20,8 +23,11 @@ def index(request):
                 "brand": "Test Brand",
                 "name": "Test Model",
                 "condition": "Out of Order",
+                "value": "100",
+                "storage_location": "John's house",
                 "next_hire_date": "None",
-                "hire_price": "20"
+                "hire_price": "20",
+                "notes": ""
             }
         ]
     }

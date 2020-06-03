@@ -32,8 +32,11 @@
 	  <th>Brand</th>
 	  <th>Name</th>
 	  <th>Condition</th>
+	  <th>Value</th>
+	  <th>Storage Location</th>
 	  <th>Next Hire Date</th>
 	  <th>Hire Price</th>
+	  <th>Notes</th>
 	</tr>
 	{% for equipment in equipment_list %}
 	<tr>
@@ -42,8 +45,11 @@
 	  <td><input type="text" value="{{ equipment.brand }}" /></td>
 	  <td><input type="text" value="{{ equipment.name }}" /></td>
 	  <td><input type="text" value="{{ equipment.condition }}" /></td>
+	  <td><input type="number" value="{{ equipment.value }}" min="0" /></td>
+	  <td><input type="text" value="{{ equipment.storage_location }}" /></td>
 	  <td>{{ equipment.next_hire_date }}</td>
 	  <td><input type="number" value="{{ equipment.hire_price }}" min="0" /></td>
+	  <td><input type="text" value="{{ equipment.notes }}" /></td>
 	</tr>
 	{% endfor %}
       </table>
