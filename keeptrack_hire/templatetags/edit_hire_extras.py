@@ -14,11 +14,11 @@ def form_field(context, value, *args, **kwargs):
         'id': kwargs['id'],
         'name': kwargs['name'],
         'value': value,
+        'disabled': context['disabled'],
     }
 
     # Get value of editable from parent context.
     # If it's not present, set it to false.
-    add_default(out_ctx, 'editable', False, context)
     add_default(out_ctx, 'size', 'col-sm', kwargs)
     add_default(out_ctx, 'type', 'text', kwargs)
 

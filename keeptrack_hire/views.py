@@ -1,6 +1,7 @@
+import datetime
 from django.views import generic, View
-from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponse, Http404
+from django.shortcuts import get_object_or_404, render, reverse
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 
 from hire.models import HireRequest
 
@@ -22,8 +23,36 @@ class HireView(View):
 
     def get(self, request, *args, **kwargs):
         item = get_object_or_404(HireRequest, pk=kwargs['pk'])
-        editable = request.GET.get('edit', False)
-        return render(request, self.template_name, {'hire': item, 'editable': editable})
+        disabled = 'disabled' if 'edit' not in request.GET else ''
+        return render(request, self.template_name, {'hire': item, 'disabled': disabled})
 
-    def update(self, request, *args, **kwargs):
-        return HttpResponse(f"Request {kwargs['pk']} was updated")
+    def _sanitize_soc_string(self, cspId):
+        if cspId == '--' or not cspId.isnumeric():
+            return ""
+        return int(cspId)
+
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+
+        def get_post_or_404(arg):
+            if arg not in request.POST:
+                raise Http404(f"Did not submit POST parameter {arg}")
+            return request.POST.get(arg)
+
+        to_date = lambda str: datetime.datetime.strptime(str, '%Y-%m-%d').date()
+
+        item = get_object_or_404(HireRequest, pk=kwargs['pk'])
+
+        # Override items from request
+        item.name = get_post_or_404('hire-name')
+        item.email = get_post_or_404('hire-email')
+        item.cid = get_post_or_404('hire-cid')
+        item.hire_from = to_date(get_post_or_404('hire-from'))
+        item.hire_to = to_date(get_post_or_404('hire-to'))
+
+        # TODO: Figure out why DB doesn't update this field.
+        item.description = get_post_or_404('hire-desc')
+
+        item.save()
+
+        return HttpResponseRedirect(reverse('keeptrack_hire:edit_hire', kwargs={'pk':item.id}))
