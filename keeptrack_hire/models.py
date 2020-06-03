@@ -1,3 +1,7 @@
 from django.db import models
 
-# Create your models here.
+from hire.models import HireRequest
+
+class AllocatedEquipment(models.Model):
+    request = models.ForeignKey(HireRequest, on_delete=models.CASCADE)
+    # euqipment = models.ForeignKey(Asset, null=True)
