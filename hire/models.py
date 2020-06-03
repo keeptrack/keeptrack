@@ -5,7 +5,7 @@ class HireRequest(models.Model):
     # Hiree details
     name = models.CharField(max_length=64)
     email = models.EmailField(max_length=254)
-    cid = models.CharField(max_length=16, blank=True)
+    cid = models.CharField(max_length=16, blank=True, null=True)
 
     # Hire info.
     hire_from = models.DateField(auto_now=False, auto_now_add=False)
@@ -13,7 +13,11 @@ class HireRequest(models.Model):
     description = models.TextField()
 
     # Metadata.
+    # If we're hiring on behalf of society
+    for_csp = models.IntegerField(blank=True, null=True)
+    # Hire requests must be approved first.
     approved = models.BooleanField(default=False)
+    # If we want to reject 
     rejected = models.BooleanField(default=False)
 
     def __str__(self):
