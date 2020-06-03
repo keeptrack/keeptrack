@@ -9,17 +9,18 @@
     <title>Equipment Overview</title>
   </head>
   <body>
+    <input type="hidden" id="last_uid" value="{{ last_uid }}" />
     <h1>Equipment Overview</h1>
     <div id="toolbar">
       <div class="left">
-        <button type="button">Add New Asset</button>
+        <button type="button" id="add_asset">Add New Asset</button>
       </div>
       <div class="right">
         <button type="button" class="emphasise">Commit changes</button>
       </div>
     </div>
     <div id="table">
-      <table style="width:100%">
+      <table style="width:100%" id="asset_table">
         <tr>
           <th>UID</th>
           <th>Category</th>
@@ -46,7 +47,7 @@
         </tr>
         {% for equipment in equipment_list %}
         <tr id="equip{{ equipment.uid }}">
-          <td><input type="checkbox" id="{{ equipment.uid }}" /> {{ equipment.uid }}</td>
+          <td><input type="checkbox" id="{{ equipment.uid }}" /><span name="uid"> {{ equipment.uid }}</span></td>
           <td><input type="text" name="category" value="{{ equipment.category }}" disabled /></td>
           <td><input type="text" name="brand" value="{{ equipment.brand }}" disabled /></td>
           <td><input type="text" name="name" value="{{ equipment.name }}" disabled /></td>
