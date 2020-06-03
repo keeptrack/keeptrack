@@ -12,52 +12,52 @@
     <h1>Equipment Overview</h1>
     <div id="toolbar">
       <div class="left">
-	<button type="button">Add New Asset</button>
+        <button type="button">Add New Asset</button>
       </div>
       <div class="right">
-	<button type="button" class="emphasise">Commit changes</button>
+        <button type="button" class="emphasise">Commit changes</button>
       </div>
     </div>
     <div id="table">
       <table style="width:100%">
-	<tr>
-	  <th>UID</th>
-	  <th>Category</th>
-	  <th>Brand</th>
-	  <th>Name</th>
-	  <th>Condition</th>
-	  <th>Value</th>
-	  <th>Storage Location</th>
-	  <th>Next Hire Date</th>
-	  <th>Hire Price</th>
-	  <th>Notes</th>
-	</tr>
-	<tr>
-	  <td></td>
-	  <td><input type="text" name="category" placeholder="Filter..." /></td>
-	  <td><input type="text" name="brand" placeholder="Filter..." /></td>
-	  <td><input type="text" name="name" placeholder="Filter..." /></td>
-	  <td><input type="text" name="condition" placeholder="Filter..." /></td>
-	  <td><input type="text" name="value" placeholder="Filter..." /></td>
-	  <td><input type="text" name="storage_location" placeholder="Filter..." /></td>
-	  <td><input type="text" name="next_hire_date" placeholder="Filter..." /></td>
-	  <td><input type="text" name="hire_price" placeholder="Filter..." /></td>
-	  <td><input type="text" name="notes" placeholder="Filter..." /></td>
-	</tr>
-	{% for equipment in equipment_list %}
-	<tr id="equip{{ equipment.uid }}">
-	  <td><input type="checkbox" name="{{ equipment.uid }}" /> {{ equipment.uid }}</td>
-	  <td><input type="text" value="{{ equipment.category }}" disabled /></td>
-	  <td><input type="text" value="{{ equipment.brand }}" disabled /></td>
-	  <td><input type="text" value="{{ equipment.name }}" disabled /></td>
-	  <td><input type="text" value="{{ equipment.condition }}" disabled /></td>
-	  <td><input type="number" value="{{ equipment.value }}" min="0" disabled /></td>
-	  <td><input type="text" value="{{ equipment.storage_location }}" disabled /></td>
-	  <td>{{ equipment.next_hire_date }}</td>
-	  <td><input type="number" value="{{ equipment.hire_price }}" min="0" disabled /></td>
-	  <td><input type="text" value="{{ equipment.notes }}" disabled /></td>
-	</tr>
-	{% endfor %}
+        <tr>
+          <th>UID</th>
+          <th>Category</th>
+          <th>Brand</th>
+          <th>Name</th>
+          <th>Condition</th>
+          <th>Value</th>
+          <th>Storage Location</th>
+          <th>Next Hire Date</th>
+          <th>Hire Price</th>
+          <th>Notes</th>
+        </tr>
+        <tr>
+          <td></td>
+          <td><input type="text" class="filter" name="category" placeholder="Filter..." /></td>
+          <td><input type="text" class="filter" name="brand" placeholder="Filter..." /></td>
+          <td><input type="text" class="filter" name="name" placeholder="Filter..." /></td>
+          <td><input type="text" class="filter" name="condition" placeholder="Filter..." /></td>
+          <td><input type="text" class="filter" name="value" placeholder="Filter..." /></td>
+          <td><input type="text" class="filter" name="storage_location" placeholder="Filter..." /></td>
+          <td><input type="text" class="filter" name="next_hire_date" placeholder="Filter..." /></td>
+          <td><input type="text" class="filter" name="hire_price" placeholder="Filter..." /></td>
+          <td><input type="text" class="filter" name="notes" placeholder="Filter..." /></td>
+        </tr>
+        {% for equipment in equipment_list %}
+        <tr id="equip{{ equipment.uid }}">
+          <td><input type="checkbox" name="{{ equipment.uid }}" /> {{ equipment.uid }}</td>
+          <td><input type="text" value="{{ equipment.category }}" disabled /></td>
+          <td><input type="text" value="{{ equipment.brand }}" disabled /></td>
+          <td><input type="text" value="{{ equipment.name }}" disabled /></td>
+          <td><input type="text" value="{{ equipment.condition }}" disabled /></td>
+          <td><input type="number" value="{{ equipment.value }}" min="0" disabled /></td>
+          <td><input type="text" value="{{ equipment.storage_location }}" disabled /></td>
+          <td>{{ equipment.next_hire_date }}</td>
+          <td><input type="number" value="{{ equipment.hire_price }}" min="0" disabled /></td>
+          <td><input type="text" value="{{ equipment.notes }}" disabled /></td>
+        </tr>
+        {% endfor %}
       </table>
     </div>
   </body>
