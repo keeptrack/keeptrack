@@ -8,25 +8,27 @@ def add_default(ctx, arg, default, kwargs):
     else:
         ctx[arg] = default
 
-@register.inclusion_tag('keeptrack_hire/form_field.html')
-def form_field(value, *args, **kwargs):
-    ctx = {
+@register.inclusion_tag('keeptrack_hire/form_field.html', takes_context=True)
+def form_field(context, value, *args, **kwargs):
+    out_ctx = {
         'id': kwargs['id'],
         'name': kwargs['name'],
-        'value': value
+        'value': value,
     }
 
-    add_default(ctx, 'editable', False, kwargs)
-    add_default(ctx, 'size', 'col-sm', kwargs)
-    add_default(ctx, 'type', 'text', kwargs)
+    # Get value of editable from parent context.
+    # If it's not present, set it to false.
+    add_default(out_ctx, 'editable', False, context)
+    add_default(out_ctx, 'size', 'col-sm', kwargs)
+    add_default(out_ctx, 'type', 'text', kwargs)
 
     if 'tooltip' in kwargs:
-        ctx['tooltip'] = kwargs['tooltip']
+        out_ctx['tooltip'] = kwargs['tooltip']
 
     if 'style' in kwargs:
-        ctx['style'] = kwargs['style']
+        out_ctx['style'] = kwargs['style']
 
-    return ctx
+    return out_ctx
 
 @register.filter(name='eactivities_csp_text')
 def eactivities_csp_text(value):
