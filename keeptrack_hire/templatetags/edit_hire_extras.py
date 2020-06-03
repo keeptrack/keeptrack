@@ -27,3 +27,10 @@ def form_field(value, *args, **kwargs):
         ctx['style'] = kwargs['style']
 
     return ctx
+
+@register.filter(name='eactivities_csp_text')
+def eactivities_csp_text(value):
+    if value == "" or value == None:
+        return '--'
+
+    return f'[{value.zfill(3)}] Society name here'

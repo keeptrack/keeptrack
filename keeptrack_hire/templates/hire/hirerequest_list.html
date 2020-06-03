@@ -7,34 +7,24 @@
 
 <style>
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-  background-color: #f7f7f7;
-}
-
-.request-approved {
-
-}
-
-.request-rejected {
-
-}
-
-.request-need-attention {
-
+  background-color: #dbf2ff;
 }
 </style>
 
 <div class="container">
 <h1>List of upcoming hires</h1>
 
-<table class="table-hover">
-    <header>
+<table class="table table-hover">
+    <thead class="thead-dark">
         <td>Status</td>
         <td>Name</td>
         <td>For Society</td>
         <td>From</td>
         <td>To</td>
         <td>Actions</td>
-    </header>
+    </thead>
+
+    <tbody>
     {% for item in object_list %}
     <tr onclick="redirect(this.getAttribute('data-url'))"
         data-url="{% url 'keeptrack_hire:edit_hire' item.id %}">
@@ -52,6 +42,7 @@
             <a href="{% url 'keeptrack_hire:delete_hire' item.id %}">DELETE</a>
         </td>
     </tr>
+    <tbody>
     {% endfor %}
 </table>
 

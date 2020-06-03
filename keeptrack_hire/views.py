@@ -21,3 +21,6 @@ class HireView(View):
     def get(self, request, *args, **kwargs):
         item = get_object_or_404(HireRequest, pk=kwargs['pk'])
         return render(request, self.template_name, {'hire': item})
+
+    def update(self, request, *args, **kwargs):
+        return HttpResponse(f"Request {kwargs['pk']} was updated")

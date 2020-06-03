@@ -1,11 +1,30 @@
 {% extends 'common/base.html' %}
 {% block 'body' %}
 
-{% load widget_tweaks %}
+{% load edit_hire_extras %}
 
 <div class="container">
 
-<h1>Hire on {{ hire.hire_from }} to {{ hire.name }}</h1>
+<h1>Hire for {{ hire.name }} on {{ hire.hire_from }} </h1>
+
+<div class="container">
+    <form action="{% url 'keeptrack_hire:edit_hire' hire.id %}" method="update">
+        <div class="row">
+            {% form_field hire.name id='hire-name' name='Name' %}
+            {% form_field hire.email id='hire-email' name="Email"%}
+            {% form_field hire.cid|default_if_none:'External Client' id='hire-cid' name="CID"%}
+        </div>
+        <div class="row">
+            {% form_field hire.hire_from|date:'Y-m-d' id='hire-from' name='Hired From' type='date' %}
+            {% form_field hire.hire_to|date:'Y-m-d' id='hire-from' name='Hired To' type='date' %}
+            {% form_field hire.for_csp|eactivities_csp_text id='hire-csp' name='On behalf of society' %}
+        </div>
+        <div class="row">
+            <label for="hire-desc">Description</label>
+            <textarea id="hire-desc" class="form-control" disabled>{{hire.description}}</textarea>
+        </div>
+    </form>
+</div>
 
 </div>
 
