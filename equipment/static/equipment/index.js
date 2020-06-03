@@ -126,12 +126,16 @@ function addAssetClicked() {
         tableRow.appendChild(cell);
     });
 
+    tableRow.className = "new";
+
     $row = $(tableRow);
     $("#asset_table").find("tbody").append($row).trigger("addRows", [$row, false]);
 }
 
 function update() {
     $("#asset_table").trigger("update");
+    var row = window.event.target.parentNode.parentNode;
+    row.className = "updated";
 }
 
 window.onload = function () {

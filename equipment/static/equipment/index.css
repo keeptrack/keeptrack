@@ -29,8 +29,13 @@ h1 {
     border-radius:5px;
 }
 
+.updated, .new {
+    background: lightgreen;
+}
+
 #table td {
     white-space:nowrap;
+    padding:5px;
 }
 
 #table input {
