@@ -78,7 +78,6 @@ function addAssetClicked() {
     var uid = lastUid + 1;
     lastUid = uid;
     
-    var table = document.getElementById("asset_table");
     var tableRow = document.createElement("tr");
     tableRow.id = "equip" + uid;
 
@@ -113,6 +112,8 @@ function addAssetClicked() {
                 input.value = "";
             }
 
+            input.addEventListener("change", update);
+
             cell.appendChild(input);
         } else {
             var span = document.createElement("span");
@@ -125,7 +126,12 @@ function addAssetClicked() {
         tableRow.appendChild(cell);
     });
 
-    table.appendChild(tableRow);
+    $row = $(tableRow);
+    $("#asset_table").find("tbody").append($row).trigger("addRows", [$row, false]);
+}
+
+function update() {
+    $("#asset_table").trigger("update");
 }
 
 window.onload = function () {
@@ -136,10 +142,30 @@ window.onload = function () {
             inputs[i].addEventListener("click", checkboxClicked);
         } else if (inputs[i].className == "filter") {
             inputs[i].addEventListener("change", filterChanged);
+        } else {
+            inputs[i].addEventListener("change", update);
         }
     }
 
     document.getElementById("add_asset").addEventListener("click", addAssetClicked);
 
     lastUid = parseInt(document.getElementById("last_uid").value);
+
+    $.tablesorter.addParser({
+        id: "input-text",
+        format: function(s, table, cell, cellIndex) {
+            return $("input", cell).val();
+        },
+        type: "text"
+    });
+
+    $.tablesorter.addParser({
+        id: "input-num",
+        format: function(s, table, cell, cellIndex) {
+            return $("input", cell).val();
+        },
+        type: "numeric"
+    });
+        
+    $("#asset_table").tablesorter();
 };
