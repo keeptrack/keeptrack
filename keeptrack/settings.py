@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'hire',
     'keeptrack.common',
     'widget_tweaks',
+    'eventscalendar'
 ]
 
 MIDDLEWARE = [
