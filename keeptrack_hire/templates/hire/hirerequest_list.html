@@ -2,29 +2,37 @@
 {% block 'body' %}
 
 <script type="text/javascript">
-    function f(url) { alert("Redirect to " + url) }
+    function redirect(url) { window.location = url; }
 </script>
+
+<style>
+    .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: #f7f7f7;
+}
+</style>
 
 <div class="container">
 <h1>List of upcoming hires</h1>
 
-<table>
+<table class="table-hover">
     <header>
         <td>ID</td>
         <td>Name</td>
         <td>From</td>
         <td>To</td>
+        <td>Actions</td>
     </header>
     {% for item in object_list %}
-    <tr onclick=>
+    <tr onclick="redirect(this.getAttribute('data-url'))"
+        data-url="{% url 'keeptrack_hire:edit_hire' item.id %}">
         <td>{{item.id}}</td>
         <td>{{item.name}}</td>
         <td>{{item.hire_from}}</td>
         <td>{{item.hire_to}}</td>
         <td>
-            <a href="{% url 'keeptrack_hire:edit_hire' item.id %}">
-                EDIT
-            </a>
+            <a href="{% url 'keeptrack_hire:edit_hire' item.id %}">EDIT</a>
+            |
+            <a href="{% url 'keeptrack_hire:delete_hire' item.id %}">DELETE</a>
         </td>
     </tr>
     {% endfor %}

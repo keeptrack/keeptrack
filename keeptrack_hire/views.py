@@ -4,6 +4,9 @@ from django.http import HttpResponse, Http404
 
 from hire.models import HireRequest
 
+def delete_hire(request, **kwargs):
+    return HttpResponse(f"Deleting element {kwargs['pk']}: {HireRequest.objects.get(pk=kwargs['pk'])}")
+
 class IndexView(generic.ListView):
     model = HireRequest
 
