@@ -6,8 +6,8 @@
 </head>
 <body>
 {% block content %}
-    <a href="{% url 'calendar' %}?{{ prev_month }}"> Previous Month </a>
-    <a href="{% url 'calendar' %}?{{ next_month }}"> Next Month </a>
+    <a href="{% url 'eventscalendar:calendar' %}?{{ prev_month }}"> Previous Month </a>
+    <a href="{% url 'eventscalendar:calendar' %}?{{ next_month }}"> Next Month </a>
     {{ calendar }}
 {% endblock %}
 </body>
