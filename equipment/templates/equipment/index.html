@@ -5,6 +5,7 @@
   <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{% static 'equipment/index.css' %}">
+    <script type="text/javascript" src="{% static 'equipment/index.js' %}"></script>
     <title>Equipment Overview</title>
   </head>
   <body>
@@ -12,7 +13,6 @@
     <div id="toolbar">
       <div class="left">
 	<button type="button">Add New Asset</button>
-	<button type="button">Edit Selected Asset</button>
       </div>
       <div class="right">
 	<button type="button" class="emphasise">Commit changes</button>
@@ -45,17 +45,17 @@
 	  <td><input type="text" name="notes" placeholder="Filter..." /></td>
 	</tr>
 	{% for equipment in equipment_list %}
-	<tr>
+	<tr id="equip{{ equipment.uid }}">
 	  <td><input type="checkbox" name="{{ equipment.uid }}" /> {{ equipment.uid }}</td>
-	  <td><input type="text" value="{{ equipment.category }}" /></td>
-	  <td><input type="text" value="{{ equipment.brand }}" /></td>
-	  <td><input type="text" value="{{ equipment.name }}" /></td>
-	  <td><input type="text" value="{{ equipment.condition }}" /></td>
-	  <td><input type="number" value="{{ equipment.value }}" min="0" /></td>
-	  <td><input type="text" value="{{ equipment.storage_location }}" /></td>
+	  <td><input type="text" value="{{ equipment.category }}" disabled /></td>
+	  <td><input type="text" value="{{ equipment.brand }}" disabled /></td>
+	  <td><input type="text" value="{{ equipment.name }}" disabled /></td>
+	  <td><input type="text" value="{{ equipment.condition }}" disabled /></td>
+	  <td><input type="number" value="{{ equipment.value }}" min="0" disabled /></td>
+	  <td><input type="text" value="{{ equipment.storage_location }}" disabled /></td>
 	  <td>{{ equipment.next_hire_date }}</td>
-	  <td><input type="number" value="{{ equipment.hire_price }}" min="0" /></td>
-	  <td><input type="text" value="{{ equipment.notes }}" /></td>
+	  <td><input type="number" value="{{ equipment.hire_price }}" min="0" disabled /></td>
+	  <td><input type="text" value="{{ equipment.notes }}" disabled /></td>
 	</tr>
 	{% endfor %}
       </table>
