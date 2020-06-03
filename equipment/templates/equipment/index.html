@@ -46,16 +46,16 @@
         </tr>
         {% for equipment in equipment_list %}
         <tr id="equip{{ equipment.uid }}">
-          <td><input type="checkbox" name="{{ equipment.uid }}" /> {{ equipment.uid }}</td>
-          <td><input type="text" value="{{ equipment.category }}" disabled /></td>
-          <td><input type="text" value="{{ equipment.brand }}" disabled /></td>
-          <td><input type="text" value="{{ equipment.name }}" disabled /></td>
-          <td><input type="text" value="{{ equipment.condition }}" disabled /></td>
-          <td><input type="number" value="{{ equipment.value }}" min="0" disabled /></td>
-          <td><input type="text" value="{{ equipment.storage_location }}" disabled /></td>
-          <td>{{ equipment.next_hire_date }}</td>
-          <td><input type="number" value="{{ equipment.hire_price }}" min="0" disabled /></td>
-          <td><input type="text" value="{{ equipment.notes }}" disabled /></td>
+          <td><input type="checkbox" id="{{ equipment.uid }}" /> {{ equipment.uid }}</td>
+          <td><input type="text" name="category" value="{{ equipment.category }}" disabled /></td>
+          <td><input type="text" name="brand" value="{{ equipment.brand }}" disabled /></td>
+          <td><input type="text" name="name" value="{{ equipment.name }}" disabled /></td>
+          <td><input type="text" name="condition" value="{{ equipment.condition }}" disabled /></td>
+          <td><input type="number" name="value" value="{{ equipment.value }}" min="0" disabled /></td>
+          <td><input type="text" name="storage_location" value="{{ equipment.storage_location }}" disabled /></td>
+          <td><span name="next_hire_date">{{ equipment.next_hire_date }}</span></td>
+          <td><input type="number" name="hire_price" value="{{ equipment.hire_price }}" min="0" disabled /></td>
+          <td><input type="text" name="notes" value="{{ equipment.notes }}" disabled /></td>
         </tr>
         {% endfor %}
       </table>
