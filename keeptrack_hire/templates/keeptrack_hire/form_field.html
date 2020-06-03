@@ -1,0 +1,7 @@
+<div class="form-group {{size}}">
+    <label for="{{id}}">{{name}}</label>
+    <input type="{{type}}" class="form-control" id="{{id}}" aria-describedby="{{id}}Help" value="{{value}}" {% if not editable %}disabled{% endif %}>
+    {% if tooltip %}
+        <small id="{{id}}Help" class="form-text text-muted">{{tooltip}}</small>
+    {% endif %}
+</div>
