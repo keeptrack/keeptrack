@@ -6,8 +6,20 @@
 </script>
 
 <style>
-    .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
   background-color: #f7f7f7;
+}
+
+.request-approved {
+
+}
+
+.request-rejected {
+
+}
+
+.request-need-attention {
+
 }
 </style>
 
@@ -16,8 +28,9 @@
 
 <table class="table-hover">
     <header>
-        <td>ID</td>
+        <td>Status</td>
         <td>Name</td>
+        <td>For Society</td>
         <td>From</td>
         <td>To</td>
         <td>Actions</td>
@@ -25,8 +38,12 @@
     {% for item in object_list %}
     <tr onclick="redirect(this.getAttribute('data-url'))"
         data-url="{% url 'keeptrack_hire:edit_hire' item.id %}">
-        <td>{{item.id}}</td>
+        <td>
+            {% if item.approved %} ✔ {% elif item.rejected %} ❌
+            {% else %} ❕ {% endif %}
+        </td>
         <td>{{item.name}}</td>
+        <td>{{item.for_csp|default_if_none:"--"}}</td>
         <td>{{item.hire_from}}</td>
         <td>{{item.hire_to}}</td>
         <td>

@@ -9,6 +9,11 @@ def delete_hire(request, **kwargs):
 
 class IndexView(generic.ListView):
     model = HireRequest
+    ordering = ['-hire_from']
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     return context
 
 class HireView(View):
     template_name = 'keeptrack_hire/edit_hire.html'
