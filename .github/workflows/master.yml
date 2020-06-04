@@ -5,28 +5,31 @@ on:
       - master
 
 jobs:
+  docker_build:
+    name: Build a Docker image
+    runs-on: [self-hosted]
+    steps:
+      - uses: actions/checkout@v2
+      - run: docker build -f Dockerfile -t keeptrack:latest .
   check:
     name: Django system check
     runs-on: [self-hosted]
+    needs: docker_build
     steps:
-      - uses: actions/checkout@v2
       - env:
-          SECRET_KEY: dummy
-          APP_DEBUG: 0
-        run: python3 manage.py check
+          SECRET: dummy
+        run: docker run --env SECRET_KEY=$SECRET --env APP_DEBUG=1 keeptrack:latest python3 /var/django/manage.py check
   test:
     name: Tests
-    needs: check
+    needs: [docker_build, check]
     runs-on: [self-hosted]
     steps:
-      - uses: actions/checkout@v2
       - env:
-          SECRET_KEY: dummy
-          APP_DEBUG: 0
-        run: python3 manage.py test
+          SECRET: dummy
+        run: docker run --env SECRET_KEY=$SECRET --env APP_DEBUG=1 keeptrack:latest python3 /var/django/manage.py test
   deploy:
     name: Deployment to production
-    needs: [check, test]
+    needs: [docker_build, check, test]
     runs-on: [self-hosted]
     steps:
       - uses: actions/checkout@v2
