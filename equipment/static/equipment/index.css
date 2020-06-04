@@ -1,0 +1,80 @@
+body {
+    margin-left:auto;
+    margin-right:auto;
+    width:80%;
+}
+
+h1, .center {
+    text-align:center;
+}
+
+#toolbar {
+    width:100%;
+    overflow:hidden;
+    margin-bottom:10px;
+}
+
+.left {
+    float:left;
+}
+
+.right {
+    float:right;
+}
+
+#table table, #table th {
+    border-color:gray;
+    border-style:solid;
+    border-width:1px;
+    border-radius:5px;
+}
+
+.updated {
+    background: lightgreen;
+}
+
+.new {
+    background: gold;
+}
+
+.deleted {
+    background: pink;
+}
+
+#table td {
+    white-space:nowrap;
+    padding:5px;
+}
+
+#table input {
+    width:100%;
+    box-sizing:border-box;
+    border-color:#bfbfbf;
+    border-style:solid;
+    border-width:1px;
+    border-radius:5px;
+    padding:5px;
+}
+
+#table input:disabled {
+    background:#f2f2f2;
+    color:black;
+}
+
+#table input[type="checkbox"] {
+    width:auto;
+    margin:0;
+}
+
+button {
+    background:none;
+    border-style:solid;
+    border-color:gray;
+    border-width:2px;
+    border-radius:5px;
+    padding:5px;
+}
+
+.emphasise {
+    background:lightblue;
+}
