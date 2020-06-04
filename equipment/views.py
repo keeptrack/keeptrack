@@ -1,35 +1,17 @@
 from django.shortcuts import render
+from equipment.models import Asset
 
 
 # Create your views here.
 def index(request):
+    assets = Asset.objects.all()
+    last_uid = 1
+
+    for asset in assets:
+        if asset.uid > last_uid:
+            last_uid = asset.uid
+
     return render(request, "equipment/index.html", {
-        "last_uid": 2,
-        "equipment_list": [
-            {
-                "uid": 1,
-                "category": "Camera",
-                "brand": "Canon",
-                "name": "9000",
-                "condition": "Good",
-                "value": "2000",
-                "storage_location": "Cupboard",
-                "next_hire_date": "31 July",
-                "hire_price": "10",
-                "notes": ""
-            },
-            {
-                "uid": 2,
-                "category": "Test",
-                "brand": "Test Brand",
-                "name": "Test Model",
-                "condition": "Out of Order",
-                "value": "100",
-                "storage_location": "John's house",
-                "next_hire_date": "None",
-                "hire_price": "20",
-                "notes": ""
-            }
-        ]
-    }
-    )
+        "last_uid": last_uid,
+        "equipment_list": map(Asset.to_dict, assets)
+    })
