@@ -21,7 +21,7 @@ class HireForm(forms.ModelForm):
         hire_to = cleaned_data.get('hire_to')
 
         if hire_from and hire_to:
-            if hire_from < hire_to:
+            if hire_from > hire_to:
                 msg = forms.ValidationError("Select a valid date range.")
                 self.add_error('hire_from', msg)
                 self.add_error('hire_to', msg)

@@ -2,6 +2,9 @@ from django.db import models
 
 
 # Hire request.
+from django.urls import reverse
+
+
 class HireRequest(models.Model):
     # Hire details
     name = models.CharField(max_length=64)
@@ -19,3 +22,8 @@ class HireRequest(models.Model):
 
     def __str__(self):
         return f"Hire({self.name}, {self.hire_from})"
+
+    @property
+    def get_html_url(self):
+        url = reverse('cal:event_edit', args=(self.id,))
+        return f'<a href="{url}"> {self.name} </a>'

@@ -3,16 +3,17 @@ from datetime import datetime, timedelta, date
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.views import generic
 
+from hire.models import HireRequest
 from .forms import EventForm
-from .models import *
 from .utils import Calendar
 
 
 class CalendarView(generic.ListView):
-    model = Event
+    model = HireRequest
     template_name = 'cal/calendar.html'
 
     def get_context_data(self, **kwargs):
@@ -50,9 +51,9 @@ def next_month(d):
 
 def event(request, event_id=None):
     if event_id:
-        instance = get_object_or_404(Event, pk=event_id)
+        instance = get_object_or_404(HireRequest, pk=event_id)
     else:
-        instance = Event()
+        instance = HireRequest()
 
     form = EventForm(request.POST or None, instance=instance)
     if request.POST and form.is_valid():
