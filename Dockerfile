@@ -18,6 +18,7 @@ RUN mkdir /var/django && chown -R daemon:daemon /var/django
 RUN chown -R daemon:daemon /usr/local/apache2/logs
 ADD --chown=daemon:daemon . /var/django/
 RUN mv /var/django/docker_httpd.conf /usr/local/apache2/conf/httpd.conf
-RUN SECRET_KEY=dummy APP_DEBUG=1 python3 /var/django/manage.py collectstatic
+RUN rm -R /var/django/static && SECRET_KEY=dummy APP_DEBUG=1 python3 /var/django/manage.py collectstatic
+RUN SECRET_KEY=dummy APP_DEBUG=1 python3 /var/django/manage.py migrate
 USER daemon
 CMD ["httpd-foreground"]
