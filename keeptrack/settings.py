@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'keeptrack.common',
     'keeptrack_hire',
     'widget_tweaks',
-    'cal.apps.CalConfig'
+    'cal.apps.CalConfig',
     'equipment'
 ]
 
