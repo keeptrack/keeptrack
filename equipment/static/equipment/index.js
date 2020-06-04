@@ -269,12 +269,13 @@ function saveChangesClicked() {
 
 function unmarkAllRows() {
     var rows = document.getElementsByTagName("TR");
+    var rowsToDelete = []
 
     for (var i = 0; i < rows.length; i++) {
         if (rows[i].id.includes("equip")) {
             var selected = rows[i].children[0].children[0].checked;
             if (rows[i].classList.contains("deleted")) {
-                rows[i].parentNode.removeChild(rows[i]);
+                rowsToDelete.push(rows[i]);
             } else {
                 rows[i].classList.remove("updated");
                 rows[i].classList.remove("new");
@@ -289,6 +290,10 @@ function unmarkAllRows() {
             }
         }
     }
+
+    rowsToDelete.forEach(function (row, item) {
+        row.parentNode.removeChild(row);
+    });
 
     $("#asset_table").trigger("update");
     updateRemoveRestoreButtons();
