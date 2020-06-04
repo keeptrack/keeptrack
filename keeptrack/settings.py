@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'hire',
     'keeptrack.common',
+    'keeptrack_hire',
     'widget_tweaks',
     'equipment'
 ]
