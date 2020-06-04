@@ -4,7 +4,7 @@ body {
     width:80%;
 }
 
-h1 {
+h1, .center {
     text-align:center;
 }
 
@@ -29,8 +29,16 @@ h1 {
     border-radius:5px;
 }
 
-.updated, .new {
+.updated {
     background: lightgreen;
+}
+
+.new {
+    background: gold;
+}
+
+.deleted {
+    background: pink;
 }
 
 #table td {

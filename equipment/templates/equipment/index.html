@@ -22,12 +22,15 @@
     <div id="toolbar">
       <div class="left">
         <button type="button" id="add_asset">Add New Asset</button>
+        <button type="button" id="remove_asset" disabled>Remove Selected Assets</button>
+        <button type="button" id="restore_asset" disabled>Restore Selected Assets</button>
       </div>
       <div class="right">
-        <button type="button" class="emphasise">Commit changes</button>
+        <button type="button" class="emphasise">Save Changes</button>
       </div>
     </div>
     <div id="table">
+      <p class="center">Green rows have unsaved changes, yellow rows are newly-added and red rows are marked to be deleted. All updates made here are reversible unless you click "Save Changes".</p>
       <table style="width:100%" id="asset_table" class="tablesorter">
         <thead>
         <tr>
