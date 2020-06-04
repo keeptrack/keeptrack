@@ -5,32 +5,33 @@ on:
       - testing
 
 jobs:
-  check:
-    name: Django system check
-    runs-on: [self-hosted]
-    steps:
-      - uses: actions/checkout@v2
-      - env:
-          SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-          APP_DEBUG: 1
-        run: python3 manage.py check
-  test:
-    name: Tests
-    needs: check
-    runs-on: [self-hosted]
-    steps:
-      - uses: actions/checkout@v2
-      - env:
-          SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-          APP_DEBUG: 1
-        run: python3 manage.py test
-  deploy:
-    name: Deployment to testing
-    needs: [check, test]
+  docker_build:
+    name: Build a Docker image
     runs-on: [self-hosted]
     steps:
       - uses: actions/checkout@v2
       - run: docker build -f Dockerfile -t keeptrack:latest-test .
+  check:
+    name: Django system check
+    runs-on: [self-hosted]
+    needs: docker_build
+    steps:
+      - env:
+          SECRET: ${{ secrets.DJANGO_SECRET_KEY }}
+        run: docker run --env SECRET_KEY=$SECRET --env APP_DEBUG=1 keeptrack:latest-test python3 /var/django/manage.py check
+  test:
+    name: Tests
+    needs: [docker_build, check]
+    runs-on: [self-hosted]
+    steps:
+      - env:
+          SECRET: ${{ secrets.DJANGO_SECRET_KEY }}
+        run: docker run --env SECRET_KEY=$SECRET --env APP_DEBUG=1 keeptrack:latest-test python3 /var/django/manage.py test
+  deploy:
+    name: Deployment to testing
+    needs: [docker_build, check, test]
+    runs-on: [self-hosted]
+    steps:
       - run: docker kill keeptrack-testing || true
       - run: docker rm keeptrack-testing || true
       - env:

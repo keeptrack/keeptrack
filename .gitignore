@@ -1,5 +1,5 @@
-# Created by https://www.gitignore.io/api/django,python,pycharm
-# Edit at https://www.gitignore.io/?templates=django,python,pycharm
+# Created by https://www.toptal.com/developers/gitignore/api/python,django,pycharm,emacs
+# Edit at https://www.toptal.com/developers/gitignore?templates=python,django,pycharm,emacs
 
 ### Django ###
 *.log
@@ -8,7 +8,6 @@
 __pycache__/
 local_settings.py
 db.sqlite3
-db.sqlite3-journal
 media
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
@@ -70,6 +69,12 @@ coverage.xml
 # Translations
 *.mo
 
+# Django stuff:
+
+# Flask stuff:
+instance/
+.webassets-cache
+
 # Scrapy stuff:
 .scrapy
 
@@ -79,13 +84,20 @@ docs/_build/
 # PyBuilder
 target/
 
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
 # pyenv
 .python-version
 
 # pipenv
 #   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
 #   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   having no cross-platform support, pipenv may install dependencies that don’t work, or not
 #   install all needed dependencies.
 #Pipfile.lock
 
@@ -95,17 +107,21 @@ celerybeat-schedule
 # SageMath parsed files
 *.sage.py
 
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
 # Spyder project settings
 .spyderproject
 .spyproject
 
 # Rope project settings
 .ropeproject
-
-# Mr Developer
-.mr.developer.cfg
-.project
-.pydevproject
 
 # mkdocs documentation
 /site
@@ -118,9 +134,61 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+### Emacs ###
+# -*- mode: gitignore; -*-
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Org-mode
+.org-id-locations
+*_archive
+
+# flymake-mode
+*_flymake.*
+
+# eshell files
+/eshell/history
+/eshell/lastdir
+
+# elpa packages
+/elpa/
+
+# reftex files
+*.rel
+
+# AUCTeX auto folder
+/auto/
+
+# cask packages
+.cask/
+
+# Flycheck
+flycheck_*.el
+
+# server auth directory
+/server/
+
+# projectiles files
+.projectile
+
+# directory configuration
+.dir-locals.el
+
+# network security
+/network-security.data
+
+
 ### PyCharm ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+
+.idea/
 
 # User-specific stuff
 .idea/**/workspace.xml
@@ -152,8 +220,6 @@ dmypy.json
 # .idea/modules.xml
 # .idea/*.iml
 # .idea/modules
-# *.iml
-# *.ipr
 
 # CMake
 cmake-build-*/
@@ -197,14 +263,7 @@ fabric.properties
 # *.ipr
 
 # Sonarlint plugin
-.idea/**/sonarlint/
-
-# SonarQube Plugin
-.idea/**/sonarIssues.xml
-
-# Markdown Navigator plugin
-.idea/**/markdown-navigator.xml
-.idea/**/markdown-navigator/
+.idea/sonarlint
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
@@ -223,29 +282,39 @@ fabric.properties
 
 # Translations
 
+# Django stuff:
+
+# Flask stuff:
+
 # Scrapy stuff:
 
 # Sphinx documentation
 
 # PyBuilder
 
+# Jupyter Notebook
+
+# IPython
+
 # pyenv
+env/
+venv/
 
 # pipenv
 #   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
 #   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   having no cross-platform support, pipenv may install dependencies that don’t work, or not
 #   install all needed dependencies.
 
 # celery beat schedule file
 
 # SageMath parsed files
 
+# Environments
+
 # Spyder project settings
 
 # Rope project settings
-
-# Mr Developer
 
 # mkdocs documentation
 
@@ -253,5 +322,4 @@ fabric.properties
 
 # Pyre type checker
 
-# End of https://www.gitignore.io/api/django,python,pycharm
-
+# End of https://www.toptal.com/developers/gitignore/api/python,django,pycharm,emacs
