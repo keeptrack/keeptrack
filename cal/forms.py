@@ -1,18 +1,18 @@
 from django.forms import ModelForm, DateInput
-from cal.models import Event
+from hire.models import HireRequest
 
 class EventForm(ModelForm):
   class Meta:
-    model = Event
+    model = HireRequest
     # datetime-local is a HTML5 input type, format to make date time show on fields
     widgets = {
-      'start_time': DateInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
-      'end_time': DateInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
+      'hire_from': DateInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
+      'hire_to': DateInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
     }
     fields = '__all__'
 
   def __init__(self, *args, **kwargs):
     super(EventForm, self).__init__(*args, **kwargs)
     # input_formats parses HTML5 datetime-local input to datetime field
-    self.fields['start_time'].input_formats = ('%Y-%m-%dT%H:%M',)
-    self.fields['end_time'].input_formats = ('%Y-%m-%dT%H:%M',)
+    self.fields['hire_from'].input_formats = ('%Y-%m-%dT:%M',)
+    self.fields['hire_to'].input_formats = ('%Y-%m-%dT:%M',)
