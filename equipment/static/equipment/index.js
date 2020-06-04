@@ -177,6 +177,8 @@ function removeAssetClicked() {
         if (row.classList.contains("new")) {
             document.getElementsByTagName("TBODY")[0].removeChild(row);
             $("#asset_table").trigger("update");
+            selectedCount -= 1;
+            updateRemoveRestoreButtons();
         } else if (!row.classList.contains("deleted")) {
             row.classList.add("deleted");
             selectedCount -= 1;
