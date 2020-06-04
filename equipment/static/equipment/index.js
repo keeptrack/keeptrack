@@ -6,12 +6,7 @@ var lastUid;
 var selectedCount = 0;
 var selectedMarkedCount = 0;
 
-function checkboxClicked() {
-    var checkbox = window.event.target;
-    var name = checkbox.id;
-    var row = document.getElementById("equip" + name);
-    var disabled = !checkbox.checked;
-    
+function changeRowDisable(checkboxName, row, disabled) {
     var children = row.childNodes;
 
     for (var i = 0; i < children.length; i++) {
@@ -19,7 +14,7 @@ function checkboxClicked() {
             var cellChildren = children[i].childNodes;
             for (var j = 0; j < cellChildren.length; j++) {
                 if (cellChildren[j].nodeName == "INPUT"
-                    && cellChildren[j].id != name) {
+                    && cellChildren[j].id != checkboxName) {
                     cellChildren[j].disabled = disabled;
                 }
             }
@@ -35,6 +30,15 @@ function checkboxClicked() {
     }
 
     updateRemoveRestoreButtons();
+}
+
+function checkboxClicked() {
+    var checkbox = window.event.target;
+    var name = checkbox.id;
+    var row = document.getElementById("equip" + name);
+    var disabled = !checkbox.checked;
+    
+    changeRowDisable(name, row, disabled);
 }
 
 function updateRemoveRestoreButtons() {
@@ -128,6 +132,7 @@ function addAssetClicked() {
             if (type == "value" || type == "hire_price") {
                 input.type = "number";
                 input.value = 0;
+                input.min = 0;
             } else {
                 input.type = "text";
                 input.value = "";
@@ -177,6 +182,7 @@ function removeAssetClicked() {
         if (row.classList.contains("new")) {
             document.getElementsByTagName("TBODY")[0].removeChild(row);
             $("#asset_table").trigger("update");
+
             selectedCount -= 1;
             updateRemoveRestoreButtons();
         } else if (!row.classList.contains("deleted")) {
@@ -201,6 +207,112 @@ function restoreAssetClicked() {
     });
 }
 
+function getUpdatedRows() {
+    var rows = document.getElementsByTagName("TR");
+    var rowsToReturn = [];
+
+    for (var i = 0; i < rows.length; i++) {
+        if (rows[i].id.includes("equip")) {
+            var classList = rows[i].classList;
+            if (classList.contains("updated") ||
+                classList.contains("deleted") ||
+                classList.contains("new")) {
+                rowsToReturn.push(rows[i]);
+            }
+        }
+    }
+
+    return rowsToReturn;
+}
+
+function saveChangesClicked() {
+    var rows = getUpdatedRows();
+    var assets = [];
+
+    rows.forEach(function (row, index) {
+        object = {};
+
+        var classList = row.classList;
+        if (classList.contains("deleted")) {
+            object["action"] = "delete";
+        } else if (classList.contains("updated")) {
+            object["action"] = "update";
+        } else if (classList.contains("new")) {
+            object["action"] = "new";
+        } else {
+            return;
+        }
+        
+        object["uid"] = row.getElementsByTagName("SPAN")[0].innerText
+            .replace(" ", "");
+
+        var inputs = row.getElementsByTagName("INPUT");
+
+        var typeIndex = 0;
+        for (var i = 1; i < inputs.length; i++, typeIndex++) {
+            var type = types[typeIndex];
+            
+            if (type == "next_hire_date") {
+                type = types[++typeIndex];
+            }
+            
+            object[type] = inputs[i].value;
+        }
+
+        assets.push(object);
+    });
+
+    if (assets.length > 0) {
+        saveChanges(JSON.stringify(assets));
+    }
+}
+
+function unmarkAllRows() {
+    var rows = document.getElementsByTagName("TR");
+
+    for (var i = 0; i < rows.length; i++) {
+        if (rows[i].id.includes("equip")) {
+            var selected = rows[i].children[0].children[0].checked;
+            if (rows[i].classList.contains("deleted")) {
+                rows[i].parentNode.removeChild(rows[i]);
+            } else {
+                rows[i].classList.remove("updated");
+                rows[i].classList.remove("new");
+
+                var checkbox = rows[i].children[0].children[0];
+                checkbox.checked = false;
+                changeRowDisable(checkbox.id, rows[i], true);
+            }
+
+            if (selected) {
+                selectedMarkedCount -= 1;
+            }
+        }
+    }
+
+    $("#asset_table").trigger("update");
+    updateRemoveRestoreButtons();
+}
+
+function saveChanges(jsonRequest) {
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (request.readyState != XMLHttpRequest.DONE) {
+            return;
+        }
+
+        if (request.status == 200) {
+            unmarkAllRows();
+        } else {
+            alert("Error!");
+        }
+    };
+    request.open("POST", "update");
+    request.setRequestHeader("X-CSRFToken",
+                             document.getElementById("csrf").value)
+    request.send(jsonRequest);
+}
+
 function update() {
     $("#asset_table").trigger("update");
     var row = window.event.target.parentNode.parentNode;
@@ -222,9 +334,14 @@ window.onload = function () {
         }
     }
 
-    document.getElementById("add_asset").addEventListener("click", addAssetClicked);
-    document.getElementById("remove_asset").addEventListener("click", removeAssetClicked);
-    document.getElementById("restore_asset").addEventListener("click", restoreAssetClicked);
+    document.getElementById("add_asset")
+        .addEventListener("click", addAssetClicked);
+    document.getElementById("remove_asset")
+        .addEventListener("click", removeAssetClicked);
+    document.getElementById("restore_asset")
+        .addEventListener("click", restoreAssetClicked);
+    document.getElementById("save_changes")
+        .addEventListener("click", saveChangesClicked);
 
     lastUid = parseInt(document.getElementById("last_uid").value);
 
