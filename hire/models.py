@@ -1,8 +1,12 @@
 from django.db import models
 
+
 # Hire request.
+from django.urls import reverse
+
+
 class HireRequest(models.Model):
-    # Hiree details
+    # Hire details
     name = models.CharField(max_length=64)
     email = models.EmailField(max_length=254)
     cid = models.CharField(max_length=16, blank=True, null=True)
@@ -25,3 +29,8 @@ class HireRequest(models.Model):
 
     def __str__(self):
         return f"Hire({self.name}, {self.hire_from})"
+
+    @property
+    def get_html_url(self):
+        url = reverse('cal:event_edit', args=(self.id,))
+        return f'<a href="{url}"> {self.name} </a>'
