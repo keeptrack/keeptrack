@@ -36,3 +36,7 @@ def eactivities_csp_text(value):
         return '--'
 
     return f'[{value.zfill(3)}] Society name here'
+
+@register.simple_tag
+def multiply(a, b):
+    return a * b

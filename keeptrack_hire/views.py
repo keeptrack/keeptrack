@@ -22,9 +22,20 @@ class HireView(View):
     template_name = 'keeptrack_hire/edit_hire.html'
 
     def get(self, request, *args, **kwargs):
-        item = get_object_or_404(HireRequest, pk=kwargs['pk'])
-        disabled = 'disabled' if 'edit' not in request.GET else ''
-        return render(request, self.template_name, {'hire': item, 'disabled': disabled})
+        hire = get_object_or_404(HireRequest, pk=kwargs['pk'])
+        disabled = 'readonly' if 'edit' not in request.GET else ''
+        assets = AllocatedEquipment.objects.filter(request=hire)
+
+        ctx = {
+            'hire': hire,
+            'disabled': disabled,
+            'duration': (hire.hire_to - hire.hire_from).days + 1
+        }
+
+        if assets.exists():
+            ctx['allocated_assets'] = assets
+
+        return render(request, self.template_name, ctx)
 
     def _sanitize_soc_string(self, cspId):
         if cspId == '--' or not cspId.isnumeric():
