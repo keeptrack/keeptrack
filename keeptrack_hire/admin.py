@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import AllocatedEquipment
+
+@admin.register(AllocatedEquipment)
+class AllocatedEquipmentAdmin(admin.ModelAdmin):
+    pass
