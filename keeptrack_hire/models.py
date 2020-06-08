@@ -1,7 +1,8 @@
 from django.db import models
 
 from hire.models import HireRequest
+from equipment.models import Asset
 
 class AllocatedEquipment(models.Model):
     request = models.ForeignKey(HireRequest, on_delete=models.CASCADE)
-    # euqipment = models.ForeignKey(Asset, null=True)
+    asset = models.ForeignKey(Asset, on_delete=models.CASCADE)
