@@ -61,9 +61,9 @@ def event(request, event_id=None):
         return HttpResponseRedirect(reverse('cal:calendar'))
     return render(request, 'cal/event.html', {'form': form})
 
-def hire(request, event_id=None):
-    if event_id:
-        instance = get_object_or_404(HireRequest, pk=event_id)
+def hire(request, hire_id=None):
+    if hire_id:
+        instance = get_object_or_404(HireRequest, pk=hire_id)
     else:
         instance = HireRequest()
 

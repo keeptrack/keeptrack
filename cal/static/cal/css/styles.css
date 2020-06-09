@@ -14,11 +14,14 @@ body {
 .btn {
   outline: none;
   color: black;
-  background-color: #dff4f7;
+  background-color: #ffffff;
   box-shadow: 0 0 0 0;
   margin-right: 3px;
 }
-
+.btn:hover {
+  background-image: none;
+  background-color: #006e99;
+}
 .clearfix {
   margin: 15px;
 }
@@ -31,7 +34,7 @@ body {
   border-radius: 5px;
   border: 1px solid #006e99;
   outline: none;
-  background: #dff4f7;
+  background: #ffffff;
   padding: 5px;
   width: 100%;
 }
@@ -46,12 +49,12 @@ body {
   width: 98%;
   margin: auto;
   font-size: 18px;
-  background-color: #dff4f7;
+  background-color: #ffffff;
 }
 
 .calendar tr, .calendar td {
   border: 1px solid black;
-  background-color: #dff4f7;
+  background-color: #ffffff;
 }
 
 .calendar th {
@@ -66,7 +69,7 @@ body {
   width: 200px;
   height: 150px;
   padding: 21px 0px 0px 5px;
-  background-color: #dff4f7;
+  background-color: #ffffff;
 }
 
 .month {
@@ -80,7 +83,7 @@ body {
 ul {
   height: 100%;
   padding: 0px 5px 0px 20px;
-  background-color: #dff4f7;
+  background-color: #ffffff;
 }
 
 a {
