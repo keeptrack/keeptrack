@@ -3,7 +3,9 @@ from django.views import generic, View
 from django.shortcuts import get_object_or_404, render, reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 
+from equipment.models import Asset
 from hire.models import HireRequest
+from .models import AllocatedEquipment, AllocatedCustomItems
 
 def delete_hire(request, **kwargs):
     key = kwargs['pk']
@@ -24,7 +26,9 @@ class HireView(View):
     def get(self, request, *args, **kwargs):
         hire = get_object_or_404(HireRequest, pk=kwargs['pk'])
         disabled = 'readonly' if 'edit' not in request.GET else ''
+
         assets = AllocatedEquipment.objects.filter(request=hire)
+        custom_items = AllocatedCustomItems.objects.filter(request=hire)
 
         ctx = {
             'hire': hire,
@@ -34,6 +38,9 @@ class HireView(View):
 
         if assets.exists():
             ctx['allocated_assets'] = assets
+
+        if custom_items.exists():
+            ctx['custom_items'] = custom_items
 
         return render(request, self.template_name, ctx)
 

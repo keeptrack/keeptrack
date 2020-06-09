@@ -134,6 +134,18 @@
 
             {% endwith %}
         {% endfor %}
+
+        {% for ci in custom_items %}
+            <tr>
+                <td>{{ci.text}}</td>
+                <td>-</td>
+                <td>-</td>
+                <td>£{{ci.price}}</td>
+                <td>
+                    <a href="#TODO: Add remove">REMOVE</a>
+                </td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
 </div>
