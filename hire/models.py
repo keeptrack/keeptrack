@@ -10,6 +10,7 @@ class HireRequest(models.Model):
     name = models.CharField(max_length=64)
     email = models.EmailField(max_length=254)
     cid = models.CharField(max_length=16, blank=True, null=True)
+    is_event = False
 
     # Hire info.
     hire_from = models.DateField(auto_now=False, auto_now_add=False)
@@ -28,11 +29,11 @@ class HireRequest(models.Model):
     # allocated_assets = models.ManyToManyField(Asset, through='AllocatedEquipment')
 
     def __str__(self):
-        return f"Hire({self.name}, {self.hire_from})"
+        return f'Hire({self.name}, {self.hire_from})'
 
     @property
     def get_html_url(self):
-        url = reverse('cal:event_edit', args=(self.id,))
+        url = reverse('cal:hire_edit', args=(self.id,))
         return f'<a href="{url}"> {self.name} </a>'
 
 
@@ -41,6 +42,7 @@ class Event(models.Model):
     name = models.CharField(max_length=64)
     email = models.EmailField(max_length=254)
     cid = models.CharField(max_length=16, blank=True, null=True)
+    is_event = True
 
     # Hire info.
     event_from = models.DateField(auto_now=False, auto_now_add=False)
@@ -48,7 +50,7 @@ class Event(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return f"Hire({self.name}, {self.event_from})"
+        return f'Event({self.name}, {self.event_from})'
 
     @property
     def get_html_url(self):

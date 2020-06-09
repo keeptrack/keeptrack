@@ -1,6 +1,13 @@
 from calendar import HTMLCalendar
 
-from hire.models import HireRequest
+from hire.models import HireRequest, Event
+
+
+class ModelWrapper:
+	def __init__(self, year, month, model):
+		self.year = year
+		self.month = month
+		self.model = model
 
 
 class Calendar(HTMLCalendar):
@@ -8,6 +15,7 @@ class Calendar(HTMLCalendar):
 		self.year = year
 		self.month = month
 		self.events = events
+
 		super(Calendar, self).__init__()
 
 	# formats a day as a td
@@ -32,7 +40,15 @@ class Calendar(HTMLCalendar):
 	# formats a month as a table
 	# filter events by year and month
 	def formatmonth(self, theyear, themonth, withyear=True):
-		self.events = HireRequest.objects.filter(hire_from__year=self.year, hire_from__month=self.month)
+		hires = HireRequest.objects.filter(hire_from__year=self.year, hire_from__month=self.month)
+		events = Event.objects.filter(event_from__year=self.year, event_from__month=self.month)
+		self.events = []
+
+		for hire in hires:
+			self.events.append(ModelWrapper(self.year, self.month, hire))
+
+		for event in events:
+			self.events.append(ModelWrapper(self.year, self.month, event))
 
 		cal = f'<table border="0" cellpadding="0" cellspacing="0" class="calendar">\n'
 		cal += f'{self.formatmonthname(self.year, self.month, withyear=withyear)}\n'
