@@ -30,6 +30,14 @@ def form_field(context, value, *args, **kwargs):
 
     return out_ctx
 
+@register.simple_tag()
+def case_approved_rejected(item, approved, rejected, other, *args, **kwargs):
+    if item.approved:
+        return approved
+    if item.rejected:
+        return rejected
+    return other
+
 @register.filter(name='eactivities_csp_text')
 def eactivities_csp_text(value):
     if value == "" or value == None:
