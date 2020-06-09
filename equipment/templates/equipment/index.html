@@ -34,7 +34,7 @@
           <h1>Equipment Overview</h1>
         </div>
       </div>
-      <div class="row center">
+      <div class="row center mb-1">
         <div class="col">
           <button type="button" id="add_asset">Add New Asset</button>
         </div>
@@ -48,14 +48,32 @@
           <button type="button" id="save_changes" class="emphasise">Save Changes</button>
         </div>
       </div>
-      <div class="row center">
+      <div class="row center mb-1">
         <div class="col">
           Green rows have unsaved changes, yellow rows are newly-added and red rows are marked to be deleted. All updates made here are <b>not</b> persistent unless you click "Save Changes".
         </div>
       </div>
+      <div id="update_success" class="row alert alert-success alert-dismissible" role="alert">
+        The updates have been saved successfully!
+        <button type="button" class="close" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div id="update_error" class="row alert alert-danger alert-dismissible" role="alert">
+        An error occurred when saving the changes!
+        <button type="button" class="close" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div id="update_no_changes" class="row alert alert-info alert-dismissible" role="alert">
+        There are no changes to be saved!
+        <button type="button" class="close" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
       <div id="table" class="row">
-        <div class="col">
-          <table id="asset_table" class="table tablesorter">
+        <div class="col table-responsive">
+          <table id="asset_table" class="table table-bordered table-sm tablesorter">
             <thead>
               <tr>
                 <th>UID</th>

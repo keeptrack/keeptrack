@@ -23,7 +23,7 @@ function changeRowDisable(checkboxName, row, disabled) {
 
     var num = disabled ? -1 : 1;
 
-    if (row.classList.contains("deleted")) {
+    if (row.classList.contains("table-danger")) {
         selectedMarkedCount += num;
     } else {
         selectedCount += num;
@@ -152,7 +152,7 @@ function addAssetClicked() {
         tableRow.appendChild(cell);
     });
 
-    tableRow.classList.add("new");
+    tableRow.classList.add("table-warning");
 
     $row = $(tableRow);
     $("#asset_table").find("tbody").append($row).trigger("addRows", [$row, false]);
@@ -179,14 +179,14 @@ function removeAssetClicked() {
     var rows = getSelectedRows();
 
     rows.forEach(function (row, index) {
-        if (row.classList.contains("new")) {
+        if (row.classList.contains("table-warning")) {
             document.getElementsByTagName("TBODY")[0].removeChild(row);
             $("#asset_table").trigger("update");
 
             selectedCount -= 1;
             updateRemoveRestoreButtons();
-        } else if (!row.classList.contains("deleted")) {
-            row.classList.add("deleted");
+        } else if (!row.classList.contains("table-danger")) {
+            row.classList.add("table-danger");
             selectedCount -= 1;
             selectedMarkedCount += 1;
             updateRemoveRestoreButtons();
@@ -198,8 +198,8 @@ function restoreAssetClicked() {
     var rows = getSelectedRows();
 
     rows.forEach(function (row, index) {
-        if (row.classList.contains("deleted")) {
-            row.classList.remove("deleted");
+        if (row.classList.contains("table-danger")) {
+            row.classList.remove("table-danger");
             selectedCount += 1;
             selectedMarkedCount -= 1;
             updateRemoveRestoreButtons();
@@ -214,9 +214,9 @@ function getUpdatedRows() {
     for (var i = 0; i < rows.length; i++) {
         if (rows[i].id.includes("equip")) {
             var classList = rows[i].classList;
-            if (classList.contains("updated") ||
-                classList.contains("deleted") ||
-                classList.contains("new")) {
+            if (classList.contains("table-success") ||
+                classList.contains("table-danger") ||
+                classList.contains("table-warning")) {
                 rowsToReturn.push(rows[i]);
             }
         }
@@ -233,11 +233,11 @@ function saveChangesClicked() {
         object = {};
 
         var classList = row.classList;
-        if (classList.contains("deleted")) {
+        if (classList.contains("table-danger")) {
             object["action"] = "delete";
-        } else if (classList.contains("updated")) {
+        } else if (classList.contains("table-success")) {
             object["action"] = "update";
-        } else if (classList.contains("new")) {
+        } else if (classList.contains("table-warning")) {
             object["action"] = "new";
         } else {
             return;
@@ -264,6 +264,8 @@ function saveChangesClicked() {
 
     if (assets.length > 0) {
         saveChanges(JSON.stringify(assets));
+    } else {
+        showUpdateNoChangesAlert();
     }
 }
 
@@ -274,11 +276,11 @@ function unmarkAllRows() {
     for (var i = 0; i < rows.length; i++) {
         if (rows[i].id.includes("equip")) {
             var selected = rows[i].children[0].children[0].checked;
-            if (rows[i].classList.contains("deleted")) {
+            if (rows[i].classList.contains("table-danger")) {
                 rowsToDelete.push(rows[i]);
             } else {
-                rows[i].classList.remove("updated");
-                rows[i].classList.remove("new");
+                rows[i].classList.remove("table-success");
+                rows[i].classList.remove("table-warning");
 
                 var checkbox = rows[i].children[0].children[0];
                 checkbox.checked = false;
@@ -299,6 +301,24 @@ function unmarkAllRows() {
     updateRemoveRestoreButtons();
 }
 
+function showUpdateSuccessAlert() {
+    $("#update_error").hide();
+    $("#update_no_changes").hide();
+    $("#update_success").show();
+}
+
+function showUpdateErrorAlert() {
+    $("#update_success").hide();
+    $("#update_no_changes").hide();
+    $("#update_error").show();
+}
+
+function showUpdateNoChangesAlert() {
+    $("#update_success").hide();
+    $("#update_error").hide();
+    $("#update_no_changes").show();
+}
+
 function saveChanges(jsonRequest) {
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
@@ -308,8 +328,9 @@ function saveChanges(jsonRequest) {
 
         if (request.status == 200) {
             unmarkAllRows();
+            showUpdateSuccessAlert();
         } else {
-            alert("Error!");
+            showUpdateErrorAlert();
         }
     };
     request.open("POST", "update");
@@ -321,9 +342,21 @@ function saveChanges(jsonRequest) {
 function update() {
     $("#asset_table").trigger("update");
     var row = window.event.target.parentNode.parentNode;
-    if (!row.classList.contains("new")) {
-        row.classList.add("updated");
+    if (!row.classList.contains("table-warning")) {
+        row.classList.add("table-success");
     }
+}
+
+function updateSuccessCloseClicked() {
+    $("#update_success").hide();
+}
+
+function updateErrorCloseClicked() {
+    $("#update_error").hide();
+}
+
+function updateNoChangesCloseClicked() {
+    $("#update_no_changes").hide();
 }
 
 window.onload = function () {
@@ -347,6 +380,12 @@ window.onload = function () {
         .addEventListener("click", restoreAssetClicked);
     document.getElementById("save_changes")
         .addEventListener("click", saveChangesClicked);
+
+    var closeButtons = document.getElementsByClassName("close");
+
+    closeButtons[0].addEventListener("click", updateSuccessCloseClicked);
+    closeButtons[1].addEventListener("click", updateErrorCloseClicked);
+    closeButtons[2].addEventListener("click", updateNoChangesCloseClicked);
 
     lastUid = parseInt(document.getElementById("last_uid").value);
 

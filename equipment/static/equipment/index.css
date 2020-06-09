@@ -2,20 +2,10 @@ h1, .center {
     text-align:center;
 }
 
-.updated {
-    background: lightgreen;
-}
-
-.new {
-    background: gold;
-}
-
-.deleted {
-    background: pink;
-}
-
 #table td {
     white-space:nowrap;
+    vertical-align:middle;
+    min-width:50px;
 }
 
 #table input {
@@ -49,4 +39,8 @@ button {
 
 .emphasise {
     background:lightblue;
+}
+
+#update_success, #update_error, #update_no_changes {
+    display:none;
 }
