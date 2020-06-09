@@ -34,3 +34,23 @@ class HireRequest(models.Model):
     def get_html_url(self):
         url = reverse('cal:event_edit', args=(self.id,))
         return f'<a href="{url}"> {self.name} </a>'
+
+
+class Event(models.Model):
+    # Event Details
+    name = models.CharField(max_length=64)
+    email = models.EmailField(max_length=254)
+    cid = models.CharField(max_length=16, blank=True, null=True)
+
+    # Hire info.
+    event_from = models.DateField(auto_now=False, auto_now_add=False)
+    event_to = models.DateField(auto_now=False, auto_now_add=False)
+    description = models.TextField()
+
+    def __str__(self):
+        return f"Hire({self.name}, {self.event_from})"
+
+    @property
+    def get_html_url(self):
+        url = reverse('cal:event_edit', args=(self.id,))
+        return f'<a href="{url}"> {self.name} </a>'
