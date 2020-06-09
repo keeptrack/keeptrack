@@ -82,8 +82,14 @@ body {
 
 ul {
   height: 100%;
-  padding: 0px 5px 0px 20px;
+  padding: 0;
   background-color: #ffffff;
+  list-style: none;
+}
+ul li {
+  background: #cce5ff;
+  margin: 5px;
+  padding: 8px 16px;
 }
 
 a {
