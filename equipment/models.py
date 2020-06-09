@@ -7,9 +7,9 @@ class Asset(models.Model):
     brand = models.TextField()
     name = models.TextField()
     condition = models.TextField()
-    value = models.IntegerField()
+    value = models.FloatField()
     storage_location = models.TextField()
-    hire_price = models.IntegerField()
+    hire_price = models.FloatField()
     notes = models.TextField()
 
     def to_dict(self):
