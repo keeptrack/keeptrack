@@ -1,32 +1,5 @@
-body {
-    margin-left:auto;
-    margin-right:auto;
-    width:80%;
-}
-
 h1, .center {
     text-align:center;
-}
-
-#toolbar {
-    width:100%;
-    overflow:hidden;
-    margin-bottom:10px;
-}
-
-.left {
-    float:left;
-}
-
-.right {
-    float:right;
-}
-
-#table table, #table th {
-    border-color:gray;
-    border-style:solid;
-    border-width:1px;
-    border-radius:5px;
 }
 
 .updated {
@@ -43,7 +16,6 @@ h1, .center {
 
 #table td {
     white-space:nowrap;
-    padding:5px;
 }
 
 #table input {
