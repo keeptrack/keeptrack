@@ -22,8 +22,6 @@ class HireRequest(models.Model):
     approved = models.BooleanField(default=False)
     # If we want to reject 
     rejected = models.BooleanField(default=False)
-    # One hire is associated with many assets.
-    allocated_assets = models.ManyToManyField(Asset, through='keeptrack_hire.AllocatedEquipment')
 
     def __str__(self):
         return f"Hire({self.name}, {self.hire_from})"
