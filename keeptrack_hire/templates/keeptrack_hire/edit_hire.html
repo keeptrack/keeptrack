@@ -18,9 +18,10 @@
               {% case_approved_rejected hire "Approved" "Rejected" "Awaits approval" %}
             </button>
             <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">Approve</a>
-              <a class="dropdown-item" href="#">Reject</a>
+              <a class="dropdown-item" href="{% url 'keeptrack_hire:approve_hire' hire.id %}">Approve</a>
+              <a class="dropdown-item" href="{% url 'keeptrack_hire:reject_hire' hire.id %}">Reject</a>
               <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url 'keeptrack_hire:unmark_hire' hire.id %}">Awaits approval</a>
             </div>
           </div>
     </div>

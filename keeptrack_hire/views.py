@@ -67,3 +67,23 @@ class HireView(View):
         item.save()
 
         return HttpResponseRedirect(reverse('keeptrack_hire:edit_hire', kwargs={'pk':item.id}))
+
+def _set_flags_and_redirect(key, approved, rejected):
+    obj = HireRequest.objects.get(pk=key)
+    obj.approved = approved
+    obj.rejected = rejected
+    obj.save()
+
+    return HttpResponseRedirect(reverse('keeptrack_hire:edit_hire', kwargs={'pk':key}))
+
+def approve_hire(request, **kwargs):
+    key = kwargs['pk']
+    return _set_flags_and_redirect(key, True, False)
+
+def reject_hire(request, **kwargs):
+    key = kwargs['pk']
+    return _set_flags_and_redirect(key, False, True)
+
+def unmark_hire(reqiest, **kwargs):
+    key = kwargs['pk']
+    return _set_flags_and_redirect(key, False, False)
