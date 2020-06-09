@@ -5,7 +5,7 @@ h1, .center {
 #table td {
     white-space:nowrap;
     vertical-align:middle;
-    min-width:50px;
+    min-width:100px;
 }
 
 #table input {
