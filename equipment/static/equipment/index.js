@@ -133,6 +133,7 @@ function addAssetClicked() {
                 input.type = "number";
                 input.value = 0;
                 input.min = 0;
+                input.max = "9999999.99";
                 input.step = "0.01";
             } else {
                 input.type = "text";
