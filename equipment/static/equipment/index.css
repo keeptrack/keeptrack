@@ -1,54 +1,11 @@
-body {
-    margin-left:auto;
-    margin-right:auto;
-    width:80%;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-}
-
-button, input {
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-}
-
 h1, .center {
     text-align:center;
 }
 
-#toolbar {
-    width:100%;
-    overflow:hidden;
-    margin-bottom:10px;
-}
-
-.left {
-    float:left;
-}
-
-.right {
-    float:right;
-}
-
-#table table, #table th {
-    border-color:gray;
-    border-style:solid;
-    border-width:1px;
-    border-radius:5px;
-}
-
-.updated {
-    background: lightgreen;
-}
-
-.new {
-    background: gold;
-}
-
-.deleted {
-    background: pink;
-}
-
 #table td {
     white-space:nowrap;
-    padding:5px;
+    vertical-align:middle;
+    min-width:100px;
 }
 
 #table input {
@@ -82,4 +39,8 @@ button {
 
 .emphasise {
     background:lightblue;
+}
+
+#update_success, #update_error, #update_no_changes {
+    display:none;
 }
