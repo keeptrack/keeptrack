@@ -185,8 +185,23 @@ class AvailableAssetsJsonView(View):
 
         return assets
 
+    def _contains_all_words(self, text, asset):
+        words = text.lower().split()
+        for word in words:
+            nincatg = word not in asset.category.lower()
+            ninbrnd = word not in asset.brand.lower()
+            ninname = word not in asset.name.lower()
+
+            if ninbrnd and nincatg and ninname:
+                return False
+
+        return True
+
     def _get_free_assets_as_ctx_list(self, hire, query_text):
-        assets = self._get_free_assets(hire)
+        query_text = query_text.lower()
+        assets = filter(lambda a: self._contains_all_words(query_text, a),
+                        self._get_free_assets(hire))
+
         return list(map(lambda a: {
             'id': a.uid,
             'category': a.category,
