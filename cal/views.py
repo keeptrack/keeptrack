@@ -7,17 +7,19 @@ from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.views import generic
 
-from hire.models import HireRequest
-from .forms import EventForm
+from hire.models import HireRequest, Event
+from .forms import HireForm, EventForm
 from .utils import Calendar
 
 
 class CalendarView(generic.ListView):
-    model = HireRequest
     template_name = 'cal/calendar.html'
+    context_object_name = 'event_list'
+    model = HireRequest
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = super(CalendarView, self).get_context_data(**kwargs)
+        context['event_list'] = Event.objects
         d = get_date(self.request.GET.get('month', None))
         cal = Calendar(d.year, d.month)
         html_cal = cal.formatmonth(d.year, d.month, withyear=True)
@@ -49,13 +51,27 @@ def next_month(d):
     return month
 
 
+def hire(request, hire_id=None):
+    if hire_id:
+        instance = get_object_or_404(HireRequest, pk=hire_id)
+    else:
+        instance = HireRequest()
+
+    form = HireForm(request.POST or None, instance=instance)
+    if request.POST and form.is_valid():
+        form.save()
+        return HttpResponseRedirect(reverse('cal:calendar'))
+    return render(request, 'cal/hire.html', {'form': form})
+
+
 def event(request, event_id=None):
     if event_id:
         instance = get_object_or_404(HireRequest, pk=event_id)
     else:
-        instance = HireRequest()
+        instance = Event()
 
     form = EventForm(request.POST or None, instance=instance)
+
     if request.POST and form.is_valid():
         form.save()
         return HttpResponseRedirect(reverse('cal:calendar'))
