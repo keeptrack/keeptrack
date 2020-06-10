@@ -68,7 +68,7 @@ body {
 .calendar td {
   width: 200px;
   height: 150px;
-  padding: 21px 0px 0px 5px;
+  padding: 21px 0 0 5px;
   background-color: #ffffff;
 }
 

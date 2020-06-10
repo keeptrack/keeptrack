@@ -66,7 +66,7 @@ def hire(request, hire_id=None):
 
 def event(request, event_id=None):
     if event_id:
-        instance = get_object_or_404(HireRequest, pk=event_id)
+        instance = get_object_or_404(Event, pk=event_id)
     else:
         instance = Event()
 
@@ -76,15 +76,3 @@ def event(request, event_id=None):
         form.save()
         return HttpResponseRedirect(reverse('cal:calendar'))
     return render(request, 'cal/event.html', {'form': form})
-
-def hire(request, hire_id=None):
-    if hire_id:
-        instance = get_object_or_404(HireRequest, pk=hire_id)
-    else:
-        instance = HireRequest()
-
-    form = EventForm(request.POST or None, instance=instance)
-    if request.POST and form.is_valid():
-        form.save()
-        return HttpResponseRedirect(reverse('cal:calendar'))
-    return render(request, 'cal/hire.html', {'form': form})
