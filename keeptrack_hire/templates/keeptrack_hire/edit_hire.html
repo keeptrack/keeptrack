@@ -75,7 +75,7 @@
     </div>
 
     <!-- Add asset -->
-    <form class="form-group row" autocomplete="off" action="{% url 'keeptrack_hire:update_asset' hire.id %}" id="frm-add-asset" style="display: none">
+    <form class="form-group row" autocomplete="off" action="{% url 'keeptrack_hire:update_assets' hire.id %}" id="frm-add-asset" style="display: none">
         {% csrf_token %}
         <input type="hidden" name="asset-id" />
 
@@ -96,7 +96,7 @@
     </form>
 
     <!-- Add custom item -->
-    <form class="form-group row" id="frm-add-custom"  style="display: none">
+    <form class="form-group row" id="frm-add-custom" action="{% url 'keeptrack_hire:update_custom' hire.id %}" style="display: none">
         {% csrf_token %}
         <div class="col-sm-5">
             <input type="text" name="itemname" placeholder="Item name" class="form-control">
@@ -107,12 +107,12 @@
         </div>
 
         <div class="col-sm-2">
-            <input type="submit" class="form-control">
+            <input type="submit" class="form-control" value="Add"/>
         </div>
     </form>
 </div>
 
-{% if allocated_assets %}
+{% if allocated_assets or custom_items %}
 <div class="container">
     <table class="table">
         <thead>
@@ -133,7 +133,7 @@
                 <td>{{alloc_asset.discounted_price}}</td>
                 <td>£{% multiply asset.hire_price duration %}</td>
                 <td>
-                    <a href="#TODO: Add remove">REMOVE</a>
+                    <a href="{% url 'keeptrack_hire:remove_asset' hire.id asset.uid %}">REMOVE</a>
                 </td>
             </tr>
 
@@ -147,7 +147,7 @@
                 <td>-</td>
                 <td>£{{ci.price}}</td>
                 <td>
-                    <a href="#TODO: Add remove">REMOVE</a>
+                    <a href="{% url 'keeptrack_hire:remove_custom' hire.id ci.id %}">REMOVE</a>
                 </td>
             </tr>
         {% endfor %}

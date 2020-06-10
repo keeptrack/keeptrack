@@ -127,10 +127,43 @@ class UpdateAssetsView(View):
 
         return HttpResponse()
 
+def remove_asset(request, **kwargs):
+    hire = get_object_or_404(HireRequest, pk=kwargs['pk'])
+    asset = get_object_or_404(Asset, pk=kwargs['asset'])
+
+    allocation = get_object_or_404(AllocatedEquipment, request=hire, asset=asset)
+    allocation.delete()
+
+    return HttpResponseRedirect(reverse('keeptrack_hire:edit_hire', kwargs={'pk':hire.id}))
+
 class UpdateCustomView(View):
+    def _float_or_404(self, str):
+        try:
+            return float(str)
+        except ValueError:
+            raise Http404
+
     def put(self, request, **kwargs):
         hire_id = kwargs['pk']
         hire = get_object_or_404(HireRequest, pk=hire_id)
+
+        data = QueryDict(request.body)
+        text = data['itemname']
+        price = self._float_or_404(data['price'])
+
+        item = AllocatedCustomItems(request=hire, text=text, price=price)
+        item.save()
+
+        return HttpResponse()
+
+
+def remove_custom(request, **kwargs):
+    hire = get_object_or_404(HireRequest, pk=kwargs['pk'])
+
+    item = get_object_or_404(AllocatedCustomItems, pk=kwargs['item'])
+    item.delete()
+
+    return HttpResponseRedirect(reverse('keeptrack_hire:edit_hire', kwargs={'pk':hire.id}))
 
 #endregion
 

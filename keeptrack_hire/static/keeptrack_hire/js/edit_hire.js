@@ -9,7 +9,7 @@ $("#btn-add-asset").click(function() {
 });
 
 $("#btn-add-custom").click(function() {
-    if ($("#frm-add-asset").is(":visible")) {
+    if ($("#frm-add-custom").is(":visible")) {
         $("#frm-add-custom").hide();
     } else {
         $("#frm-add-asset").hide();
@@ -21,11 +21,8 @@ $("#frm-add-asset").submit(function(e) {
     e.preventDefault();  // Don't refresh the site.
 
     var form = $(this);
-    var url = $(this).attr("action")
-    var csrftoken = $("[name=csrfmiddlewaretoken]").val();
-
-    // FIXME: Placeholder value for testing.
-    $("#asset-id").val("1");
+    var url = form.attr("action")
+    var csrftoken = $("[name=csrfmiddlewaretoken]", form).val();
 
     $.ajax({
         type: "PUT",
@@ -33,9 +30,30 @@ $("#frm-add-asset").submit(function(e) {
         headers:{
             "X-CSRFToken": csrftoken
         },
-        data: $("#frm-add-asset").serialize(),
+        data: form.serialize(),
         success: function(data, textStatus, jqXHR) {
-            // $("#frm-add-asset").find("input").not("[type=submit]").val("")
+            location.reload();
+        }
+    });
+})
+
+$("#frm-add-custom").submit(function(e) {
+    e.preventDefault();  // Don't refresh the site.
+
+    var form = $(this);
+    var url = form.attr("action")
+    var csrftoken = $("[name=csrfmiddlewaretoken]", form).val();
+
+    console.log(`Sending PUT request to ${url}`);
+
+    $.ajax({
+        type: "PUT",
+        url: url,
+        headers:{
+            "X-CSRFToken": csrftoken
+        },
+        data: form.serialize(),
+        success: function(data, textStatus, jqXHR) {
             location.reload();
         }
     });
