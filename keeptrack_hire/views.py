@@ -1,7 +1,9 @@
 import datetime
+import json
+
 from django.views import generic, View
 from django.shortcuts import get_object_or_404, render, reverse
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.http import HttpResponse, HttpResponseRedirect, Http404, QueryDict
 
 from equipment.models import Asset
 from hire.models import HireRequest
@@ -27,20 +29,19 @@ class HireView(View):
         hire = get_object_or_404(HireRequest, pk=kwargs['pk'])
         disabled = 'readonly' if 'edit' not in request.GET else ''
 
-        assets = AllocatedEquipment.objects.filter(request=hire)
-        custom_items = AllocatedCustomItems.objects.filter(request=hire)
-
         ctx = {
             'hire': hire,
             'disabled': disabled,
             'duration': (hire.hire_to - hire.hire_from).days + 1
         }
 
-        if assets.exists():
-            ctx['allocated_assets'] = assets
+        allocated_assets = AllocatedEquipment.objects.filter(request=hire)
+        if allocated_assets.exists():
+            ctx['allocated_assets'] = allocated_assets
 
-        if custom_items.exists():
-            ctx['custom_items'] = custom_items
+        allocated_custom_items = AllocatedCustomItems.objects.filter(request=hire)
+        if allocated_custom_items.exists():
+            ctx['custom_items'] = allocated_custom_items
 
         return render(request, self.template_name, ctx)
 
@@ -75,8 +76,10 @@ class HireView(View):
 
         return HttpResponseRedirect(reverse('keeptrack_hire:edit_hire', kwargs={'pk':item.id}))
 
+#region Approval status change
+
 def _set_flags_and_redirect(key, approved, rejected):
-    obj = HireRequest.objects.get(pk=key)
+    obj = get_object_or_404(HireRequest, pk=key)
     obj.approved = approved
     obj.rejected = rejected
     obj.save()
@@ -94,3 +97,75 @@ def reject_hire(request, **kwargs):
 def unmark_hire(reqiest, **kwargs):
     key = kwargs['pk']
     return _set_flags_and_redirect(key, False, False)
+
+#endregion
+
+#region Adding and removing items from equipment list
+
+class UpdateAssetsView(View):
+    def get(self):
+        return HttpResponse()
+
+    def _float_or_none(self, str):
+        try:
+            return float(str)
+        except ValueError:
+            return None
+
+    def put(self, request, **kwargs):
+        hire_id = kwargs['pk']
+        hire = get_object_or_404(HireRequest, pk=hire_id)
+
+        data = QueryDict(request.body)
+        asset_id = data['asset-id']
+        asset_discount_price = self._float_or_none(data['discounted-price'])
+
+        asset = Asset.objects.get(uid=asset_id)
+        binding = AllocatedEquipment(request=hire, asset=asset, discounted_price = asset_discount_price)
+        print(binding)
+        binding.save()
+
+        return HttpResponse()
+
+class UpdateCustomView(View):
+    def put(self, request, **kwargs):
+        hire_id = kwargs['pk']
+        hire = get_object_or_404(HireRequest, pk=hire_id)
+
+#endregion
+
+class AvailableAssetsJsonView(View):
+    def _get_free_assets(self, hire):
+        # Find all hires that overlap with current hire.
+        all_hires = HireRequest.objects             \
+            .filter(approved=True)                  \
+            .exclude(hire_from__gt=hire.hire_to)    \
+            .exclude(hire_to__lt=hire.hire_from)
+
+        # Find all allocated assets associated with these hires.
+        allocated_assets = map(lambda hire: AllocatedEquipment.objects.filter(request=hire),
+                               all_hires)
+        assets = Asset.objects.all()
+        for qs in allocated_assets:
+            for asset in qs:
+                assets = assets.exclude(uid=asset.asset.uid)
+
+        return assets
+
+    def _get_free_assets_as_ctx_list(self, hire, query_text):
+        assets = self._get_free_assets(hire)
+        return list(map(lambda a: {
+            'id': a.uid,
+            'category': a.category,
+            'brand': a.brand,
+            'name': a.name,
+            'condition': a.condition
+        }, assets))
+
+    def get(self, request, *args, **kwargs):
+        hire = get_object_or_404(HireRequest, pk=kwargs['pk'])
+        query_text = request.GET.get('q')
+
+        assets = self._get_free_assets_as_ctx_list(hire, query_text)
+
+        return HttpResponse(json.dumps(assets), content_type="application/json")

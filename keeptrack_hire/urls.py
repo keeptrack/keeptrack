@@ -11,5 +11,10 @@ urlpatterns = [
     path('<int:pk>/reject/', views.reject_hire, name='reject_hire'),
     path('<int:pk>/unmark/', views.unmark_hire, name='unmark_hire'),
 
+    path('<int:pk>/assets/', views.UpdateAssetsView.as_view(), name='update_asset'),
+    path('<int:pk>/customitems/', views.UpdateCustomView.as_view(), name='update_custom'),
+
+    path('<int:pk>/assets/avail.json', views.AvailableAssetsJsonView.as_view(), name='available_assets'),
+
     path('<int:pk>/delete/', views.delete_hire, name='delete_hire'),
 ]

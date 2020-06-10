@@ -75,11 +75,15 @@
     </div>
 
     <!-- Add asset -->
-    <form class="form-group row" id="add-asset" style="display: none">
+    <form class="form-group row" autocomplete="off" action="{% url 'keeptrack_hire:update_asset' hire.id %}" id="frm-add-asset" style="display: none">
+        {% csrf_token %}
         <input type="hidden" name="asset-id" />
 
         <div class="col-sm-6">
-            <input type="input" name="asset-name" placeholder="Asset name" class="form-control" />
+            <select class="form-control basicAutoSelect" name="asset-name"
+                    placeholder="Type asset name, brand or category..."
+                    data-url="{% url 'keeptrack_hire:available_assets' hire.id %}" autocomplete="off">
+            </select>
         </div>
 
         <div class="col-sm-4">
@@ -87,12 +91,13 @@
         </div>
 
         <div class="col-sm-2">
-            <input type="submit" class="form-control" value="Add">
+            <input type="submit" class="btn btn-primary form-control" value="Add" disabled>
         </div>
     </form>
 
     <!-- Add custom item -->
-    <form class="form-group row" id="add-custom"  style="display: none">
+    <form class="form-group row" id="frm-add-custom"  style="display: none">
+        {% csrf_token %}
         <div class="col-sm-5">
             <input type="text" name="itemname" placeholder="Item name" class="form-control">
         </div>
@@ -154,5 +159,6 @@
 {% endblock %}
 
 {% block script %}
+<script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.5/dist/latest/bootstrap-autocomplete.min.js"></script>
 <script type="text/javascript" src="{% static 'keeptrack_hire/js/edit_hire.js' %}"></script>
 {% endblock %}
