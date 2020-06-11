@@ -1,7 +1,7 @@
 {% extends 'cal/base.html' %}
 
 {% block title %}
-    Internal Event
+    Hire for External Events
 {% endblock %}
 
 {% block content %}
@@ -24,7 +24,7 @@
         {% endfor %}
     {% endif %}
 
-    <form method="post" action="{% url 'cal:event_new' %}">
+    <form method="post" action="{% url 'cal:hire_new' %}">
         {% csrf_token %}
         <table class="form form-table">
             {{ form }}

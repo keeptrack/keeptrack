@@ -1,6 +1,6 @@
 /* Common styles */
 body {
-  font-family: "ptsans", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Constantia", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .left {
@@ -14,11 +14,14 @@ body {
 .btn {
   outline: none;
   color: black;
-  background-color: transparent;
+  background-color: #ffffff;
   box-shadow: 0 0 0 0;
   margin-right: 3px;
 }
-
+.btn:hover {
+  background-image: none;
+  background-color: #006e99;
+}
 .clearfix {
   margin: 15px;
 }
@@ -29,9 +32,9 @@ body {
 
 .form input, .form select, .form textarea {
   border-radius: 5px;
-  border: 1px solid #17a2b8;
+  border: 1px solid #006e99;
   outline: none;
-  background: none;
+  background: #ffffff;
   padding: 5px;
   width: 100%;
 }
@@ -45,23 +48,28 @@ body {
 .calendar {
   width: 98%;
   margin: auto;
-  font-size: 13px;
+  font-size: 18px;
+  background-color: #ffffff;
 }
 
 .calendar tr, .calendar td {
   border: 1px solid black;
+  background-color: #ffffff;
 }
 
 .calendar th {
   padding: 10px;
   text-align: center;
-  font-size: 18px;
+  font-size: 22px;
+  background-color: #006e99;
+
 }
 
 .calendar td {
   width: 200px;
   height: 150px;
-  padding: 20px 0px 0px 5px;
+  padding: 21px 0px 0px 5px;
+  background-color: #ffffff;
 }
 
 .month {
@@ -74,9 +82,16 @@ body {
 
 ul {
   height: 100%;
-  padding: 0px 5px 0px 20px;
+  padding: 0;
+  background-color: #ffffff;
+  list-style: none;
+}
+ul li {
+  background: #cce5ff;
+  margin: 5px;
+  padding: 8px 16px;
 }
 
 a {
-  color: #17a2b8;
+  color: #006e99;
 }

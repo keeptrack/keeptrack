@@ -1,16 +1,40 @@
 {% extends 'common/base.html' %}
-{% block body %}
 
+
+{% load static %}
 {% load edit_hire_extras %}
 
+{% block content %}
 <div class="container">
+    <div class="row justify-content-between">
+        <div class="col">
+            <h1>Hire for {{ hire.name }} on {{ hire.hire_from }} </h1>
+        </div>
 
-<h1>Hire for {{ hire.name }} on {{ hire.hire_from }} </h1>
+        <div class="btn-group">
+            <button type="button"
+                    class="btn dropdown-toggle {% case_approved_rejected hire 'btn-success' 'btn-danger' 'btn-warning' %}"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {% case_approved_rejected hire "Approved" "Rejected" "Awaits approval" %}
+            </button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="{% url 'keeptrack_hire:approve_hire' hire.id %}">Approve</a>
+              <a class="dropdown-item" href="{% url 'keeptrack_hire:reject_hire' hire.id %}">Reject</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url 'keeptrack_hire:unmark_hire' hire.id %}">Awaits approval</a>
+            </div>
+          </div>
+    </div>
+</div>
 
-<div class="container">
+<div class="container" id="hire-info">
     <form id="hiree-info" action="{% url 'keeptrack_hire:edit_hire' hire.id %}" method="post">
     {% csrf_token %}
-    <div class="row justify-content-end">
+    <div class="row justify-content-between">
+        <div class="col-md-auto">
+            <h2>Request details</h2>
+        </div>
+
         <div class="col-md-auto">
         {% if disabled == '' %}
             <input type="submit" value="Commit Changes" class="form-control btn btn-primary">
@@ -30,7 +54,7 @@
         {% form_field hire.for_csp|eactivities_csp_text id='hire-csp' name='On behalf of society' %}
     </div>
     <div class="row">
-        <div class="container">
+        <div class="col">
         <label for="hire-desc">Description</label>
         <textarea name="hire-desc" class="form-control" {{ disabled }}>{{hire.description}}</textarea>
         </div>
@@ -38,6 +62,103 @@
     </form>
 </div>
 
+<div class="container">
+    <h2>Allocated equipment</h2>
+
+    <div class="row">
+        <div class="col-sm">
+            <input type="button" id="btn-add-asset" class="form-control" value="Add asset">
+        </div>
+        <div class="col-sm">
+            <input type="button" id="btn-add-custom" class="form-control" value="Add custom item">
+        </div>
+    </div>
+
+    <!-- Add asset -->
+    <form class="form-group row" autocomplete="off" action="{% url 'keeptrack_hire:update_assets' hire.id %}" id="frm-add-asset" style="display: none">
+        {% csrf_token %}
+        <input type="hidden" name="asset-id" />
+
+        <div class="col-sm-6">
+            <select class="form-control basicAutoSelect" name="asset-name"
+                    placeholder="Type asset name, brand or category..."
+                    data-url="{% url 'keeptrack_hire:available_assets' hire.id %}" autocomplete="off">
+            </select>
+        </div>
+
+        <div class="col-sm-4">
+            <input type="number" name="discounted-price" placeholder="Discount price" min="0" step="0.01" class="form-control" />
+        </div>
+
+        <div class="col-sm-2">
+            <input type="submit" class="btn btn-primary form-control" value="Add" disabled>
+        </div>
+    </form>
+
+    <!-- Add custom item -->
+    <form class="form-group row" id="frm-add-custom" action="{% url 'keeptrack_hire:update_custom' hire.id %}" style="display: none">
+        {% csrf_token %}
+        <div class="col-sm-5">
+            <input type="text" name="itemname" placeholder="Item name" class="form-control">
+        </div>
+
+        <div class="col-sm-5">
+            <input type="number" name="price" placeholder="Item price" class="form-control" min="0" step="0.01" >
+        </div>
+
+        <div class="col-sm-2">
+            <input type="submit" class="form-control" value="Add"/>
+        </div>
+    </form>
 </div>
 
+{% if allocated_assets or custom_items %}
+<div class="container">
+    <table class="table">
+        <thead>
+            <td>Item</td>
+            <td>Day Rate</td>
+            <td>Discount</td>
+            <td>Total</td>
+            <td>Actions</td>
+        </thead>
+
+        <tbody>
+        {% for alloc_asset in allocated_assets %}
+            {% with asset=alloc_asset.asset %}
+
+            <tr>
+                <td>{{asset.brand}} {{asset.name}}</td>
+                <td>£{{asset.hire_price}}</td>
+                <td>{{alloc_asset.discounted_price}}</td>
+                <td>£{% multiply asset.hire_price duration %}</td>
+                <td>
+                    <a href="{% url 'keeptrack_hire:remove_asset' hire.id asset.uid %}">REMOVE</a>
+                </td>
+            </tr>
+
+            {% endwith %}
+        {% endfor %}
+
+        {% for ci in custom_items %}
+            <tr>
+                <td>{{ci.text}}</td>
+                <td>-</td>
+                <td>-</td>
+                <td>£{{ci.price}}</td>
+                <td>
+                    <a href="{% url 'keeptrack_hire:remove_custom' hire.id ci.id %}">REMOVE</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block script %}
+<script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.5/dist/latest/bootstrap-autocomplete.min.js"></script>
+<script type="text/javascript" src="{% static 'keeptrack_hire/js/edit_hire.js' %}"></script>
 {% endblock %}

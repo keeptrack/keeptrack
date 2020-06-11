@@ -1,5 +1,5 @@
 {% extends 'common/base.html' %}
-{% block body %}
+{% block content %}
 
 {% load widget_tweaks %}
 
@@ -19,7 +19,7 @@
         {{field.errors}}
     </div>
     {% endfor %}
-    <input type="submit" class="button" value="SUBMIT" name="submit">
+    <input type="submit" class="btn btn-primary" value="SUBMIT" name="submit">
 </form>
 
 </div>
