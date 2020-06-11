@@ -20,6 +20,9 @@ class HireForm(ModelForm):
         self.fields['hire_from'].input_formats = (frmt,)
         self.fields['hire_to'].input_formats = (frmt,)
 
+        for field in self.visible_fields():
+            field.field.widget.attrs['class'] = 'form-control'
+
 
 class EventForm(ModelForm):
     class Meta:
@@ -39,3 +42,6 @@ class EventForm(ModelForm):
 
         self.fields['event_from'].input_formats = (frmt,)
         self.fields['event_to'].input_formats = (frmt,)
+
+        for field in self.visible_fields():
+            field.field.widget.attrs['class'] = 'form-control'

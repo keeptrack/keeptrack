@@ -5,12 +5,31 @@
 {% endblock %}
 
 {% block content %}
-    <div class="clearfix">
-        <a class="btn btn-info left" href="{% url 'cal:calendar' %}?{{ prev_month }}"> Previous Month </a>
-        <a class="btn btn-info right" href="{% url 'cal:calendar' %}?{{ next_month }}"> Next Month </a>
-        <a class="btn btn-info right" href="{% url 'cal:event_new' %}"> New Event </a>
-        <a class="btn btn-info right" href="{% url 'cal:hire_new' %}"> New Hire </a>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>Calendar</h1>
     </div>
-
-    {{ calendar }}
+  </div>
+  
+  <div class="row clearfix">
+    <div class="col">
+      <a class="btn btn-outline-primary" href="{% url 'cal:calendar' %}?{{ prev_month }}"> Previous Month </a>
+    </div>
+    <div class="col">
+      <a class="btn btn-outline-primary mr-1" href="{% url 'cal:event_new' %}"> New Event </a>
+    </div>
+    <div class="col">
+      <a class="btn btn-outline-primary mr-1" href="{% url 'cal:hire_new' %}"> New Hire </a>
+    </div>
+    <div class="col">
+      <a class="btn btn-outline-primary" href="{% url 'cal:calendar' %}?{{ next_month }}"> Next Month </a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      {{ calendar }}
+    </div>
+  </div>
+</div>
 {% endblock %}

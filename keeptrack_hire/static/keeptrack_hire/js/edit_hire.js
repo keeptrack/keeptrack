@@ -85,3 +85,54 @@ $(".basicAutoSelect").on("click", function() {
     console.log("clicked me");
     $(".basicAutoSelect").autoComplete("show");
 });
+
+$("#add-discount-total").click(function() {
+    var total_div = $("#display-total");
+    $("#in", total_div).show();
+    $("#out", total_div).hide();
+})
+
+$("#submit-discount-total").click(function() {
+    var total_div = $("#display-total");
+    var input_elem = $("#in-discounted-total", total_div);
+    var csrftoken = $("[name=csrfmiddlewaretoken]", total_div).val();
+
+    var value = input_elem.val();
+    var url = total_div.data("url")
+    
+    $.ajax({
+        type: "PUT",
+        url: url,
+        headers: {
+            "X-CSRFToken": csrftoken
+        },
+        data: {new_total: value},
+        success: function(data, textStatus, jqXHR) {
+            location.reload();
+        }
+    })
+})
+
+$("#remove-discount-total").click(function() {
+    var total_div = $("#display-total");
+    var csrftoken = $("[name=csrfmiddlewaretoken]", total_div).val();
+
+    $("#in", total_div).hide();
+    $("#out", total_div).show();
+
+    var input_elem = $("#in-discounted-total", total_div);
+    var url = total_div.data("url")
+    
+    $.ajax({
+        type: "DELETE",
+        url: url,
+        headers: {
+            "X-CSRFToken": csrftoken
+        },
+        success: function(data, textStatus, jqXHR) {
+            location.reload();
+        }
+    })
+})
+
+$("#in", $("#display-total")).hide()

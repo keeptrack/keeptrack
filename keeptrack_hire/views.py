@@ -1,6 +1,7 @@
 import datetime
 import json
 
+from decimal import *
 from django.views import generic, View
 from django.shortcuts import get_object_or_404, render, reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404, QueryDict
@@ -22,26 +23,72 @@ class IndexView(generic.ListView):
     #     context = super().get_context_data(**kwargs)
     #     return context
 
+def give_discount(request, **kwargs):
+    hire_id = kwargs['pk']
+    hire = get_object_or_404(HireRequest, pk=hire_id)
+
+    if request.method == 'PUT':
+        try:
+            # Parse discount price.
+            qd = QueryDict(request.body)
+            price = float(qd['new_total'])
+            print(price)
+
+            # Set model.
+            hire.discounted_price = price
+            hire.save()
+            return HttpResponse()
+        except ValueError:
+            raise Http404
+
+    elif request.method == 'DELETE':
+        hire.discounted_price = None
+        hire.save()
+        return HttpResponse()
+    
+    return HttpResponse(status=405, reason=b'Bad method')
+    
+
 class HireView(View):
     template_name = 'keeptrack_hire/edit_hire.html'
+
+    def _sum_price_of_assets(self, asset_list):
+        total = 0
+        for asset in asset_list:
+            total += asset.discounted_price or asset.asset.hire_price
+        return total
+
+    def _sum_price_of_custom(self, custom_list):
+        total = 0
+        for item in custom_list:
+            total += item.price
+        return total
 
     def get(self, request, *args, **kwargs):
         hire = get_object_or_404(HireRequest, pk=kwargs['pk'])
         disabled = 'readonly' if 'edit' not in request.GET else ''
+        hire_duration = (hire.hire_to - hire.hire_from).days + 1
 
         ctx = {
             'hire': hire,
             'disabled': disabled,
-            'duration': (hire.hire_to - hire.hire_from).days + 1
+            'duration': hire_duration,
+            'total': 0
         }
+
+        if hire.discounted_price is not None:
+            ctx['discounted_total'] = hire.discounted_price
 
         allocated_assets = AllocatedEquipment.objects.filter(request=hire)
         if allocated_assets.exists():
             ctx['allocated_assets'] = allocated_assets
+            ctx['total'] += self._sum_price_of_assets(allocated_assets) * hire_duration
+
 
         allocated_custom_items = AllocatedCustomItems.objects.filter(request=hire)
         if allocated_custom_items.exists():
             ctx['custom_items'] = allocated_custom_items
+            ctx['total'] += self._sum_price_of_custom(allocated_custom_items)
 
         return render(request, self.template_name, ctx)
 

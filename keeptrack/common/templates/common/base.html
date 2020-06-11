@@ -8,10 +8,25 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <style type="text/css">
+      h1 {
+          text-align:center;
+      }
+    </style>
+    {% block style %}
+    {% endblock %}
 
     <title>{% block title %}Keeptrack{% endblock %}</title>
   </head>
-  <body>   
+  <body>
+    {% block menu %}
+    <div class="container">
+      <a href="{% url 'cal:calendar' %}" class="btn btn-secondary col-2">Calendar</a>
+      <a href="{% url 'equipment:index' %}" class="btn btn-secondary col-2">Equipment</a>
+      <a href="{% url 'keeptrack_hire:index' %}" class="btn btn-secondary col-2">Hires</a>
+    </div>
+    {% endblock %}
+
     {% block content %}
     {% endblock %}
 

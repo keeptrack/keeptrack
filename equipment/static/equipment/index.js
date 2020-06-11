@@ -128,6 +128,7 @@ function addAssetClicked() {
         if (type != "next_hire_date") {
             var input = document.createElement("input");
             input.name = type;
+            input.classList.add("form-control");
 
             if (type == "value" || type == "hire_price") {
                 input.type = "number";
@@ -367,7 +368,7 @@ window.onload = function () {
     for (var i = 0; i < inputs.length; i++) {
         if (inputs[i].type == "checkbox") {
             inputs[i].addEventListener("click", checkboxClicked);
-        } else if (inputs[i].className == "filter") {
+        } else if (inputs[i].classList.contains("filter")) {
             inputs[i].addEventListener("change", filterChanged);
         } else {
             inputs[i].addEventListener("change", update);
