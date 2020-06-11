@@ -8,16 +8,6 @@
     min-width:100px;
 }
 
-#table input {
-    width:100%;
-    box-sizing:border-box;
-    border-color:#bfbfbf;
-    border-style:solid;
-    border-width:1px;
-    border-radius:5px;
-    padding:5px;
-}
-
 #table input:disabled {
     background:#f2f2f2;
     color:black;
@@ -26,19 +16,6 @@
 #table input[type="checkbox"] {
     width:auto;
     margin:0;
-}
-
-button {
-    background:none;
-    border-style:solid;
-    border-color:gray;
-    border-width:2px;
-    border-radius:5px;
-    padding:5px;
-}
-
-.emphasise {
-    background:lightblue;
 }
 
 #update_success, #update_error, #update_no_changes {
