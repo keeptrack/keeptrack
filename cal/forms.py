@@ -1,8 +1,9 @@
-from django.forms import ModelForm, DateInput
+from django.forms import DateInput
 from hire.models import HireRequest, Event
+from django import forms
 
 
-class HireForm(ModelForm):
+class HireForm(forms.ModelForm):
     class Meta:
         model = HireRequest
         # date is a HTML5 input type, format to make date show on fields
@@ -19,9 +20,11 @@ class HireForm(ModelForm):
         # input_formats parses HTML5 datetime-local input to datetime field
         self.fields['hire_from'].input_formats = (frmt,)
         self.fields['hire_to'].input_formats = (frmt,)
+        self.fields['is_hidden'].widget = forms.HiddenInput()
+        self.fields['colour'].widget = forms.HiddenInput()
 
 
-class EventForm(ModelForm):
+class EventForm(forms.ModelForm):
     class Meta:
         model = Event
         format = '%Y-%m-%d'
@@ -39,3 +42,5 @@ class EventForm(ModelForm):
 
         self.fields['event_from'].input_formats = (frmt,)
         self.fields['event_to'].input_formats = (frmt,)
+        self.fields['is_hidden'].widget = forms.HiddenInput()
+        self.fields['colour'].widget = forms.HiddenInput()

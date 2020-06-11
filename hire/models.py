@@ -7,10 +7,13 @@ from django.urls import reverse
 
 class HireRequest(models.Model):
     # Hire details
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=64)
     email = models.EmailField(max_length=254)
     cid = models.CharField(max_length=16, blank=True, null=True)
     is_event = False
+    is_hidden = models.BooleanField(default=False)
+    colour = models.CharField(max_length=7, default="#000000")
 
     # Hire info.
     hire_from = models.DateField(auto_now=False, auto_now_add=False)
@@ -39,10 +42,13 @@ class HireRequest(models.Model):
 
 class Event(models.Model):
     # Event Details
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=64)
     email = models.EmailField(max_length=254)
     cid = models.CharField(max_length=16, blank=True, null=True)
     is_event = True
+    is_hidden = models.BooleanField(default=False)
+    colour = models.CharField(max_length=7, default="#000000")
 
     # Hire info.
     event_from = models.DateField(auto_now=False, auto_now_add=False)
