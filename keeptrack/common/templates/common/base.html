@@ -14,11 +14,13 @@
     <title>{% block title %}Keeptrack{% endblock %}</title>
   </head>
   <body>
+    {% block menu %}
     <div class="container">
       <a href="{% url 'cal:calendar' %}" class="btn btn-secondary col-2">Calendar</a>
       <a href="{% url 'equipment:index' %}" class="btn btn-secondary col-2">Equipment</a>
       <a href="{% url 'keeptrack_hire:index' %}" class="btn btn-secondary col-2">Hires</a>
     </div>
+    {% endblock %}
 
     {% block content %}
     {% endblock %}
