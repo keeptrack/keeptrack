@@ -21,16 +21,16 @@ Equipment Overview
       </div>
       <div class="row center mb-1">
         <div class="col">
-          <button type="button" id="add_asset">Add New Asset</button>
+          <button type="button" class="btn btn-outline-primary" id="add_asset">Add New Asset</button>
         </div>
         <div class="col">
-          <button type="button" id="remove_asset" disabled>Remove Selected Assets</button>
+          <button type="button" class="btn btn-outline-danger" id="remove_asset" disabled>Remove Selected Assets</button>
         </div>
         <div class="col">
-          <button type="button" id="restore_asset" disabled>Restore Selected Assets</button>
+          <button type="button" class="btn btn-outline-secondary" id="restore_asset" disabled>Restore Selected Assets</button>
         </div>
         <div class="col">
-          <button type="button" id="save_changes" class="emphasise">Save Changes</button>
+          <button type="button" class="btn btn-outline-success" id="save_changes" class="emphasise">Save Changes</button>
         </div>
       </div>
       <div class="row center mb-1">
@@ -71,38 +71,38 @@ Equipment Overview
                 <th class="sorter-input-text">Brand</th>
                 <th class="sorter-input-text">Name</th>
                 <th class="sorter-input-text">Condition</th>
-                <th class="sorter-input-num">Value</th>
+                <th class="sorter-input-num">Value (&pound;)</th>
                 <th class="sorter-input-text">Storage Location</th>
                 <th>Next Hire Date</th>
-                <th class="sorter-input-num">Hire Price</th>
+                <th class="sorter-input-num">Daily Hire Price (&pound;)</th>
                 <th class="sorter-input-text">Notes</th>
               </tr>
               <tr class="tablesorter-ignoreRow">
                 <td></td>
-                <td><input type="text" class="filter" name="category" placeholder="Filter..." /></td>
-                <td><input type="text" class="filter" name="brand" placeholder="Filter..." /></td>
-                <td><input type="text" class="filter" name="name" placeholder="Filter..." /></td>
-                <td><input type="text" class="filter" name="condition" placeholder="Filter..." /></td>
-                <td><input type="text" class="filter" name="value" placeholder="Filter..." /></td>
-                <td><input type="text" class="filter" name="storage_location" placeholder="Filter..." /></td>
-                <td><input type="text" class="filter" name="next_hire_date" placeholder="Filter..." /></td>
-                <td><input type="text" class="filter" name="hire_price" placeholder="Filter..." /></td>
-                <td><input type="text" class="filter" name="notes" placeholder="Filter..." /></td>
+                <td><input type="text" class="filter form-control" name="category" placeholder="Filter..." /></td>
+                <td><input type="text" class="filter form-control" name="brand" placeholder="Filter..." /></td>
+                <td><input type="text" class="filter form-control" name="name" placeholder="Filter..." /></td>
+                <td><input type="text" class="filter form-control" name="condition" placeholder="Filter..." /></td>
+                <td><input type="text" class="filter form-control" name="value" placeholder="Filter..." /></td>
+                <td><input type="text" class="filter form-control" name="storage_location" placeholder="Filter..." /></td>
+                <td><input type="text" class="filter form-control" name="next_hire_date" placeholder="Filter..." /></td>
+                <td><input type="text" class="filter form-control" name="hire_price" placeholder="Filter..." /></td>
+                <td><input type="text" class="filter form-control" name="notes" placeholder="Filter..." /></td>
               </tr>
             </thead>
             <tbody>
               {% for equipment in equipment_list %}
               <tr id="equip{{ equipment.uid }}">
                 <td><input type="checkbox" id="{{ equipment.uid }}" /><span name="uid"> {{ equipment.uid }}</span></td>
-                <td><input type="text" name="category" value="{{ equipment.category }}" disabled /></td>
-                <td><input type="text" name="brand" value="{{ equipment.brand }}" disabled /></td>
-                <td><input type="text" name="name" value="{{ equipment.name }}" disabled /></td>
-                <td><input type="text" name="condition" value="{{ equipment.condition }}" disabled /></td>
-                <td><input type="number" name="value" value="{{ equipment.value }}" min="0" max="9999999.99" step="0.01" disabled /></td>
-                <td><input type="text" name="storage_location" value="{{ equipment.storage_location }}" disabled /></td>
+                <td><input type="text" class="form-control" name="category" value="{{ equipment.category }}" disabled /></td>
+                <td><input type="text" class="form-control" name="brand" value="{{ equipment.brand }}" disabled /></td>
+                <td><input type="text" class="form-control" name="name" value="{{ equipment.name }}" disabled /></td>
+                <td><input type="text" class="form-control" name="condition" value="{{ equipment.condition }}" disabled /></td>
+                <td><input type="number" class="form-control" name="value" value="{{ equipment.value }}" min="0" max="9999999.99" step="0.01" disabled /></td>
+                <td><input type="text" class="form-control" name="storage_location" value="{{ equipment.storage_location }}" disabled /></td>
                 <td><span name="next_hire_date">{{ equipment.next_hire_date }}</span></td>
-                <td><input type="number" name="hire_price" value="{{ equipment.hire_price }}" min="0" max="9999999.99" step="0.01" disabled /></td>
-                <td><input type="text" name="notes" value="{{ equipment.notes }}" disabled /></td>
+                <td><input type="number" class="form-control" name="hire_price" value="{{ equipment.hire_price }}" min="0" max="9999999.99" step="0.01" disabled /></td>
+                <td><input type="text" class="form-control" name="notes" value="{{ equipment.notes }}" disabled /></td>
               </tr>
               {% endfor %}
             </tbody>

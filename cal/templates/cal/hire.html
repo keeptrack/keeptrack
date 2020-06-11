@@ -5,8 +5,16 @@
 {% endblock %}
 
 {% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>Hire for External Events</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
     <div class="clearfix">
-        <a class="btn btn-info left" href="{% url 'cal:calendar' %}"> Calendar </a>
+        <a class="btn btn-outline-primary left" href="{% url 'cal:calendar' %}"> Go back to calendar </a>
     </div>
 
     {% if form.errors %}
@@ -30,9 +38,12 @@
             {{ form }}
             <tr>
                 <td colspan="2">
-                    <button type="submit" class="btn btn-info right">Submit</button>
+                    <button type="submit" class="btn btn-primary right">Submit</button>
                 </td>
             </tr>
         </table>
     </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
