@@ -1,9 +1,7 @@
 from django.db import models
-
-
-# Hire request.
 from django.urls import reverse
 
+from equipment.models import Asset
 
 class HireRequest(models.Model):
     # Hire details
@@ -25,8 +23,6 @@ class HireRequest(models.Model):
     approved = models.BooleanField(default=False)
     # If we want to reject 
     rejected = models.BooleanField(default=False)
-    # TODO: One hire is associated with many assets.
-    # allocated_assets = models.ManyToManyField(Asset, through='AllocatedEquipment')
 
     def __str__(self):
         return f'Hire({self.name}, {self.hire_from})'
