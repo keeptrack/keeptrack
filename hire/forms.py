@@ -11,7 +11,7 @@ class HireForm(forms.ModelForm):
     class Meta:
         model = HireRequest
         fields = '__all__'
-        exclude = ['approved', 'rejected', 'for_csp']
+        exclude = ['approved', 'rejected', 'for_csp', 'discounted_price']
         labels = {'cid': 'CID'}
         widgets = {'hire_from': DateInput, 'hire_to': DateInput}
 

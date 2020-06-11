@@ -14,7 +14,8 @@ class HireRequest(models.Model):
     hire_from = models.DateField(auto_now=False, auto_now_add=False)
     hire_to = models.DateField(auto_now=False, auto_now_add=False)
     description = models.TextField()
-    # TODO: requested_assets = models.ManyToManyField(OfferedServices)
+    discounted_price = models.DecimalField(max_digits=8, decimal_places=2,
+                                           blank=True, null=True)
 
     # Metadata.
     # If we're hiring on behalf of society
