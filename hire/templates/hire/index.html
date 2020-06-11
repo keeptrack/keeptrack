@@ -7,7 +7,7 @@
 <h1>Society Hire Enquiries</h1>
 
 {% if note %}
-<div class="hire-note">{{ note }}</div>
+<div class="hire-note alert alert-info" role="alert">{{ note }}</div>
 {%endif%}
 
 <form method="post" action="{% url 'hire:details' %}">
