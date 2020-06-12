@@ -1,13 +1,16 @@
 {% extends 'common/base.html' %}
-{% block body %}
+{% block content %}
 
 {% load widget_tweaks %}
+
+{% block menu %}
+{% endblock %}
 
 <div class="container">
 <h1>Society Hire Enquiries</h1>
 
 {% if note %}
-<div class="hire-note">{{ note }}</div>
+<div class="hire-note alert alert-info" role="alert">{{ note }}</div>
 {%endif%}
 
 <form method="post" action="{% url 'hire:details' %}">
@@ -19,7 +22,7 @@
         {{field.errors}}
     </div>
     {% endfor %}
-    <input type="submit" class="button" value="SUBMIT" name="submit">
+    <input type="submit" class="btn btn-primary" value="Submit" name="submit">
 </form>
 
 </div>

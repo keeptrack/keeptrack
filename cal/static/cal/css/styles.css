@@ -1,8 +1,4 @@
 /* Common styles */
-body {
-  font-family: "Constantia", "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
 .left {
   float: left;
 }
@@ -11,32 +7,13 @@ body {
   float: right;
 }
 
-.btn {
-  outline: none;
-  color: black;
-  background-color: #ffffff;
-  box-shadow: 0 0 0 0;
-  margin-right: 3px;
-}
-.btn:hover {
-  background-image: none;
-  background-color: #006e99;
-}
 .clearfix {
   margin: 15px;
+  text-align:center;
 }
 
 .form {
   margin: auto;
-}
-
-.form input, .form select, .form textarea {
-  border-radius: 5px;
-  border: 1px solid #006e99;
-  outline: none;
-  background: #ffffff;
-  padding: 5px;
-  width: 100%;
 }
 
 /* App styles */
@@ -62,7 +39,7 @@ body {
   text-align: center;
   font-size: 22px;
   background-color: #006e99;
-
+  color:white;
 }
 
 .calendar td {
@@ -70,6 +47,10 @@ body {
   height: 150px;
   padding: 21px 0 0 5px;
   background-color: #ffffff;
+}
+
+.form-table th {
+  font-weight:normal;
 }
 
 .month {

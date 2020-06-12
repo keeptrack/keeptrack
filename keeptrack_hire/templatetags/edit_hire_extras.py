@@ -30,9 +30,21 @@ def form_field(context, value, *args, **kwargs):
 
     return out_ctx
 
+@register.simple_tag()
+def case_approved_rejected(item, approved, rejected, other, *args, **kwargs):
+    if item.approved:
+        return approved
+    if item.rejected:
+        return rejected
+    return other
+
 @register.filter(name='eactivities_csp_text')
 def eactivities_csp_text(value):
     if value == "" or value == None:
         return '--'
 
     return f'[{value.zfill(3)}] Society name here'
+
+@register.simple_tag
+def multiply(a, b):
+    return a * b

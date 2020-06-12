@@ -23,6 +23,9 @@ class HireForm(forms.ModelForm):
         self.fields['is_hidden'].widget = forms.HiddenInput()
         self.fields['colour'].widget = forms.HiddenInput()
 
+        for field in self.visible_fields():
+            field.field.widget.attrs['class'] = 'form-control'
+
 
 class EventForm(forms.ModelForm):
     class Meta:
@@ -44,3 +47,5 @@ class EventForm(forms.ModelForm):
         self.fields['event_to'].input_formats = (frmt,)
         self.fields['is_hidden'].widget = forms.HiddenInput()
         self.fields['colour'].widget = forms.HiddenInput()
+        for field in self.visible_fields():
+            field.field.widget.attrs['class'] = 'form-control'

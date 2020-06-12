@@ -17,7 +17,7 @@ def details(request):
             # TODO: Check for duplicates
             hire = filled_form.save()
             filled_form = HireForm()
-            data['note'] = f"Thank you {hire.name} for submitting your request. We'll get in touch soon."
+            data['note'] = f"{hire.name}, thank you for submitting your request. We'll get in touch soon."
 
         data['form'] = filled_form
         return render(request, 'hire/index.html', data)

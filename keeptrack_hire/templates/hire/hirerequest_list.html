@@ -1,9 +1,5 @@
 {% extends 'common/base.html' %}
-{% block body %}
-
-<script type="text/javascript">
-    function redirect(url) { window.location = url; }
-</script>
+{% block content %}
 
 <style>
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
@@ -12,7 +8,7 @@
 </style>
 
 <div class="container">
-<h1>List of upcoming hires</h1>
+<h1>List of Upcoming Hires</h1>
 
 <table class="table table-hover">
     <thead class="thead-dark">
@@ -48,4 +44,10 @@
 
 </div>
 
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+    function redirect(url) { window.location = url; }
+</script>
 {% endblock %}
