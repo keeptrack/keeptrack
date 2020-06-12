@@ -4,12 +4,21 @@ from datetime import datetime, timedelta, date
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
+from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.views import generic
 
 from hire.models import HireRequest, Event
 from .forms import HireForm, EventForm
 from .utils import Calendar
+
+
+def is_int(s):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
 
 
 class CalendarView(generic.ListView):
@@ -54,37 +63,57 @@ def next_month(d):
 def hire(request, hire_id=None):
     if hire_id:
         instance = get_object_or_404(HireRequest, pk=hire_id)
+        delete = format_html(f'<tr><td colspan="2"><input type="submit" name="delete" value="Delete" class="btn '
+                             f'btn-info right"></td></tr> ')
     else:
         instance = HireRequest()
+        delete = None
+
+    if request.POST:
+        if 'id' in request.POST:
+            hire_id = request.POST['id']
+            instance = get_object_or_404(HireRequest, pk=hire_id)
+
+    is_delete = False
+
+    if 'delete' in request.POST:
+        post = request.POST.copy()
+        post['is_hidden'] = True
+        request.POST = post
+        is_delete = True
 
     form = HireForm(request.POST or None, instance=instance)
-    if request.POST and form.is_valid():
+    if request.POST and (form.is_valid() or is_delete):
         form.save()
         return HttpResponseRedirect(reverse('cal:calendar'))
-    return render(request, 'cal/hire.html', {'form': form})
+    return render(request, 'cal/hire.html', {'form': form, 'delete': delete, 'id': hire_id})
 
 
 def event(request, event_id=None):
     if event_id:
-        instance = get_object_or_404(HireRequest, pk=event_id)
+        instance = get_object_or_404(Event, pk=event_id)
+        delete = format_html('<tr><td colspan="2"><input type="submit" name="delete" value="Delete" class="btn '
+                             'btn-info right"></td></tr>')
     else:
         instance = Event()
+        delete = None
+
+    if request.POST:
+        if 'id' in request.POST:
+            event_id = request.POST['id']
+            instance = get_object_or_404(Event, pk=event_id)
+
+    is_delete = False
+
+    if request.POST and 'delete' in request.POST:
+        post = request.POST.copy()
+        post['is_hidden'] = True
+        request.POST = post
+        is_delete = True
 
     form = EventForm(request.POST or None, instance=instance)
 
-    if request.POST and form.is_valid():
+    if request.POST and (form.is_valid() or is_delete):
         form.save()
         return HttpResponseRedirect(reverse('cal:calendar'))
-    return render(request, 'cal/event.html', {'form': form})
-
-def hire(request, hire_id=None):
-    if hire_id:
-        instance = get_object_or_404(HireRequest, pk=hire_id)
-    else:
-        instance = HireRequest()
-
-    form = EventForm(request.POST or None, instance=instance)
-    if request.POST and form.is_valid():
-        form.save()
-        return HttpResponseRedirect(reverse('cal:calendar'))
-    return render(request, 'cal/hire.html', {'form': form})
+    return render(request, 'cal/event.html', {'form': form, 'delete': delete, 'id': event_id})

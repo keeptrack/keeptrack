@@ -45,7 +45,7 @@
 .calendar td {
   width: 200px;
   height: 150px;
-  padding: 21px 0px 0px 5px;
+  padding: 21px 0 0 5px;
   background-color: #ffffff;
 }
 
@@ -68,7 +68,7 @@ ul {
   list-style: none;
 }
 ul li {
-  background: #cce5ff;
+  /*background: #cce5ff;*/
   margin: 5px;
   padding: 8px 16px;
 }
