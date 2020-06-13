@@ -1,5 +1,5 @@
 const types = ["category", "brand", "name", "condition", "value",
-               "storage_location", "next_hire_date", "hire_price", "notes"];
+               "storage_location", "hire_price", "notes"];
 
 var lastUid;
 
@@ -126,7 +126,7 @@ function addAssetClicked() {
     types.forEach(function (type, index) {
         var cell = document.createElement("td");
 
-        if (type != "next_hire_date" && type != "notes") {
+        if (type != "notes") {
             var input = document.createElement("input");
             input.name = type;
             input.classList.add("form-control");
@@ -145,7 +145,7 @@ function addAssetClicked() {
             input.addEventListener("change", update);
 
             cell.appendChild(input);
-        } else if (type == "notes") {
+        } else {
             var textarea = document.createElement("textarea");
             textarea.classList.add("form-control");
             textarea.name = type;
@@ -156,12 +156,6 @@ function addAssetClicked() {
             textarea.addEventListener("change", update);
 
             cell.appendChild(textarea);
-        } else {
-            var span = document.createElement("span");
-            span.name = "next_hire_date";
-            span.innerText = "None";
-
-            cell.appendChild(span);
         }
         
         tableRow.appendChild(cell);
@@ -266,11 +260,6 @@ function saveChangesClicked() {
         var typeIndex = 0;
         for (var i = 1; i < inputs.length; i++, typeIndex++) {
             var type = types[typeIndex];
-            
-            if (type == "next_hire_date") {
-                type = types[++typeIndex];
-            }
-            
             object[type] = inputs[i].value;
         }
 
