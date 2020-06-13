@@ -13,8 +13,9 @@ function changeRowDisable(checkboxName, row, disabled) {
         if (children[i].nodeName == "TD") {
             var cellChildren = children[i].childNodes;
             for (var j = 0; j < cellChildren.length; j++) {
-                if (cellChildren[j].nodeName == "INPUT"
-                    && cellChildren[j].id != checkboxName) {
+                if ((cellChildren[j].nodeName == "INPUT"
+                     && cellChildren[j].id != checkboxName)
+                    || cellChildren[j].nodeName == "TEXTAREA") {
                     cellChildren[j].disabled = disabled;
                 }
             }
@@ -125,7 +126,7 @@ function addAssetClicked() {
     types.forEach(function (type, index) {
         var cell = document.createElement("td");
 
-        if (type != "next_hire_date") {
+        if (type != "next_hire_date" && type != "notes") {
             var input = document.createElement("input");
             input.name = type;
             input.classList.add("form-control");
@@ -144,6 +145,17 @@ function addAssetClicked() {
             input.addEventListener("change", update);
 
             cell.appendChild(input);
+        } else if (type == "notes") {
+            var textarea = document.createElement("textarea");
+            textarea.classList.add("form-control");
+            textarea.name = type;
+            textarea.rows = 3;
+            textarea.cols = 25;
+            textarea.value = "";
+
+            textarea.addEventListener("change", update);
+
+            cell.appendChild(textarea);
         } else {
             var span = document.createElement("span");
             span.name = "next_hire_date";
@@ -262,6 +274,9 @@ function saveChangesClicked() {
             object[type] = inputs[i].value;
         }
 
+        object[types[typeIndex]]
+            = row.getElementsByTagName("TEXTAREA")[0].value;
+
         assets.push(object);
     });
 
@@ -373,6 +388,11 @@ window.onload = function () {
         } else {
             inputs[i].addEventListener("change", update);
         }
+    }
+
+    var textareas = document.getElementsByTagName("TEXTAREA");
+    for (var i = 0; i < textareas.length; i++) {
+        textareas[i].addEventListener("change", update);
     }
 
     document.getElementById("add_asset")
