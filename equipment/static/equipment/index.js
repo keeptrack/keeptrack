@@ -139,6 +139,7 @@ function addAssetClicked() {
                 input.step = "0.01";
             } else {
                 input.type = "text";
+                input.placeholder = "Type here...";
                 input.value = "";
             }
 
@@ -152,6 +153,7 @@ function addAssetClicked() {
             textarea.rows = 3;
             textarea.cols = 25;
             textarea.value = "";
+            textarea.placeholder = "Type here...";
 
             textarea.addEventListener("change", update);
 
