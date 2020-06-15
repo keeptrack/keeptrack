@@ -1,6 +1,6 @@
-import datetime
 from django import template
 register = template.Library()
+
 
 def add_default(ctx, arg, default, kwargs):
     if arg in kwargs:
@@ -8,6 +8,8 @@ def add_default(ctx, arg, default, kwargs):
     else:
         ctx[arg] = default
 
+
+# noinspection PyUnusedLocal
 @register.inclusion_tag('keeptrack_hire/form_field.html', takes_context=True)
 def form_field(context, value, *args, **kwargs):
     out_ctx = {
@@ -30,6 +32,8 @@ def form_field(context, value, *args, **kwargs):
 
     return out_ctx
 
+
+# noinspection PyUnusedLocal
 @register.simple_tag()
 def case_approved_rejected(item, approved, rejected, other, *args, **kwargs):
     if item.approved:
@@ -38,12 +42,15 @@ def case_approved_rejected(item, approved, rejected, other, *args, **kwargs):
         return rejected
     return other
 
+
 @register.filter(name='eactivities_csp_text')
 def eactivities_csp_text(value):
-    if value == "" or value == None:
+    value = str(value)
+    if value == "" or value is None:
         return '--'
 
     return f'[{value.zfill(3)}] Society name here'
+
 
 @register.simple_tag
 def multiply(a, b):
