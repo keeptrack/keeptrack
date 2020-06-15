@@ -14,7 +14,7 @@ class ModelWrapper:
 
 
 def day_filter(day, event):
-	if event.date_from.day < day < event.date_to.day and not event.model.is_hidden:
+	if event.date_from.day <= day <= event.date_to.day and not event.model.is_hidden:
 		return True
 	else:
 		return False

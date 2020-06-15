@@ -70,7 +70,7 @@ def hire(request, hire_id=None):
         delete = None
 
     if request.POST:
-        if 'id' in request.POST:
+        if 'id' in request.POST and request.POST['id'] != 'None':
             hire_id = request.POST['id']
             instance = get_object_or_404(HireRequest, pk=hire_id)
 
@@ -99,7 +99,7 @@ def event(request, event_id=None):
         delete = None
 
     if request.POST:
-        if 'id' in request.POST:
+        if 'id' in request.POST and request.POST['id'] != 'None':
             event_id = request.POST['id']
             instance = get_object_or_404(Event, pk=event_id)
 

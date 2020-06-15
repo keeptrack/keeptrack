@@ -3,6 +3,7 @@ from django.urls import reverse
 
 from equipment.models import Asset
 
+
 class HireRequest(models.Model):
     # Hire details
     id = models.AutoField(primary_key=True)
