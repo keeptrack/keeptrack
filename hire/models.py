@@ -35,7 +35,7 @@ class HireRequest(models.Model):
     @property
     def get_html_url(self):
         url = reverse('keeptrack_hire:edit_hire', kwargs={'pk':self.id})
-        return f'<a href="{url}"> {self.name} </a>'
+        return f'<a href="{url}" style="color: white"> {self.name} </a>'
 
 
 class Event(models.Model):
@@ -59,4 +59,4 @@ class Event(models.Model):
     @property
     def get_html_url(self):
         url = reverse('cal:event_edit', args=(self.id,))
-        return f'<a href="{url}"> {self.name} </a>'
+        return f'<a href="{url}" style="color: white"> {self.name} </a>'
