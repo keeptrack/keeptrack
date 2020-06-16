@@ -34,7 +34,7 @@ class HireRequest(models.Model):
 
     @property
     def get_html_url(self):
-        url = reverse('keeptrack_hire:edit_hire', args=(self.id,))
+        url = reverse('keeptrack_hire:edit_hire', kwargs={'pk':self.id})
         return f'<a href="{url}" style="color: white"> {self.name} </a>'
 
 
