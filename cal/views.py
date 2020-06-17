@@ -67,7 +67,7 @@ def hire(request, hire_id=None):
                              f'btn-info right"></td></tr> ')
     else:
         instance = HireRequest()
-        delete = None
+        delete = format_html(f'<div></div>')
 
     if request.POST:
         if 'id' in request.POST and request.POST['id'] != 'None':
@@ -96,8 +96,8 @@ def event(request, event_id=None):
                              'btn-info right"></td></tr>')
     else:
         instance = Event()
-        delete = None
-
+        delete = format_html(f'<div></div>')
+        
     if request.POST:
         if 'id' in request.POST and request.POST['id'] != 'None':
             event_id = request.POST['id']
