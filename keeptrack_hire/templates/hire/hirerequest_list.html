@@ -1,53 +1,57 @@
 {% extends 'common/base.html' %}
 {% block content %}
 
-<style>
-.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-  background-color: #dbf2ff;
-}
-</style>
+    <style>
+        .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+            background-color: #dbf2ff;
+        }
+    </style>
 
-<div class="container">
-<h1>List of Upcoming Hires</h1>
+    <div class="container">
+        <h1>List of Upcoming Hires</h1>
 
-<table class="table table-hover">
-    <thead class="thead-dark">
-        <td>Status</td>
-        <td>Name</td>
-        <td>For Society</td>
-        <td>From</td>
-        <td>To</td>
-        <td>Actions</td>
-    </thead>
+        <table class="table table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <td>Status</td>
+                <td>Name</td>
+                <td>For Society</td>
+                <td>From</td>
+                <td>To</td>
+                <td>Actions</td>
+            </tr>
+            </thead>
 
-    <tbody>
-    {% for item in object_list %}
-    <tr onclick="redirect(this.getAttribute('data-url'))"
-        data-url="{% url 'keeptrack_hire:edit_hire' item.id %}">
-        <td>
-            {% if item.approved %} ✔ {% elif item.rejected %} ❌
-            {% else %} ❕ {% endif %}
-        </td>
-        <td>{{item.name}}</td>
-        <td>{{item.for_csp|default_if_none:"--"}}</td>
-        <td>{{item.hire_from}}</td>
-        <td>{{item.hire_to}}</td>
-        <td>
-            <a href="{% url 'keeptrack_hire:edit_hire' item.id %}">EDIT</a>
-            |
-            <a href="{% url 'keeptrack_hire:delete_hire' item.id %}">DELETE</a>
-        </td>
-    </tr>
-    <tbody>
-    {% endfor %}
-</table>
+            <tbody>
+            {% for item in object_list %}
+                <tr onclick="redirect(this.getAttribute('data-url'))"
+                    data-url="{% url 'keeptrack_hire:edit_hire' item.id %}">
+                    <td>
+                        {% if item.approved %} ✔ {% elif item.rejected %} ❌
+                        {% else %} ❕ {% endif %}
+                    </td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.for_csp|default_if_none:"--" }}</td>
+                    <td>{{ item.hire_from }}</td>
+                    <td>{{ item.hire_to }}</td>
+                    <td>
+                        <a href="{% url 'keeptrack_hire:edit_hire' item.id %}">EDIT</a>
+                        |
+                        <a href="{% url 'keeptrack_hire:delete_hire' item.id %}">DELETE</a>
+                    </td>
+                </tr>
+                <tbody>
+            {% endfor %}
+        </table>
 
-</div>
+    </div>
 
 {% endblock %}
 
 {% block script %}
-<script type="text/javascript">
-    function redirect(url) { window.location = url; }
-</script>
+    <script type="text/javascript">
+        function redirect(url) {
+            window.location = url;
+        }
+    </script>
 {% endblock %}

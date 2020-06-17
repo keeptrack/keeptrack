@@ -1,7 +1,6 @@
 import datetime
 import json
 
-from decimal import *
 from django.views import generic, View
 from django.shortcuts import get_object_or_404, render, reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404, QueryDict
@@ -10,10 +9,12 @@ from equipment.models import Asset
 from hire.models import HireRequest
 from .models import AllocatedEquipment, AllocatedCustomItems
 
+
 def delete_hire(request, **kwargs):
     key = kwargs['pk']
     obj = HireRequest.objects.get(pk=key)
     return HttpResponse(f"Deleting element {key}: {obj}")
+
 
 class IndexView(generic.ListView):
     model = HireRequest
@@ -22,6 +23,7 @@ class IndexView(generic.ListView):
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
     #     return context
+
 
 def give_discount(request, **kwargs):
     hire_id = kwargs['pk']
@@ -45,20 +47,22 @@ def give_discount(request, **kwargs):
         hire.discounted_price = None
         hire.save()
         return HttpResponse()
-    
+
     return HttpResponse(status=405, reason=b'Bad method')
-    
+
 
 class HireView(View):
     template_name = 'keeptrack_hire/edit_hire.html'
 
-    def _sum_price_of_assets(self, asset_list):
+    @staticmethod
+    def _sum_price_of_assets(asset_list):
         total = 0
         for asset in asset_list:
             total += asset.discounted_price or asset.asset.hire_price
         return total
 
-    def _sum_price_of_custom(self, custom_list):
+    @staticmethod
+    def _sum_price_of_custom(custom_list):
         total = 0
         for item in custom_list:
             total += item.price
@@ -84,7 +88,6 @@ class HireView(View):
             ctx['allocated_assets'] = allocated_assets
             ctx['total'] += self._sum_price_of_assets(allocated_assets) * hire_duration
 
-
         allocated_custom_items = AllocatedCustomItems.objects.filter(request=hire)
         if allocated_custom_items.exists():
             ctx['custom_items'] = allocated_custom_items
@@ -92,20 +95,23 @@ class HireView(View):
 
         return render(request, self.template_name, ctx)
 
-    def _sanitize_soc_string(self, cspId):
-        if cspId == '--' or not cspId.isnumeric():
+    @staticmethod
+    def _sanitize_soc_string(csp_id):
+        if csp_id == '--' or not csp_id.isnumeric():
             return ""
-        return int(cspId)
+        return int(csp_id)
 
-    def post(self, request, *args, **kwargs):
+    @staticmethod
+    def post(request, *args, **kwargs):
         print(request.POST)
+
+        def to_date(x):
+            return datetime.datetime.strptime(x, '%Y-%m-%d').date()
 
         def get_post_or_404(arg):
             if arg not in request.POST:
                 raise Http404(f"Did not submit POST parameter {arg}")
             return request.POST.get(arg)
-
-        to_date = lambda str: datetime.datetime.strptime(str, '%Y-%m-%d').date()
 
         item = get_object_or_404(HireRequest, pk=kwargs['pk'])
 
@@ -116,14 +122,14 @@ class HireView(View):
         item.hire_from = to_date(get_post_or_404('hire-from'))
         item.hire_to = to_date(get_post_or_404('hire-to'))
 
-        # TODO: Figure out why DB doesn't update this field.
         item.description = get_post_or_404('hire-desc')
 
         item.save()
 
-        return HttpResponseRedirect(reverse('keeptrack_hire:edit_hire', kwargs={'pk':item.id}))
+        return HttpResponseRedirect(reverse('keeptrack_hire:edit_hire', kwargs={'pk': item.id}))
 
-#region Approval status change
+
+# region Approval status change
 
 def _set_flags_and_redirect(key, approved, rejected):
     obj = get_object_or_404(HireRequest, pk=key)
@@ -131,31 +137,37 @@ def _set_flags_and_redirect(key, approved, rejected):
     obj.rejected = rejected
     obj.save()
 
-    return HttpResponseRedirect(reverse('keeptrack_hire:edit_hire', kwargs={'pk':key}))
+    return HttpResponseRedirect(reverse('keeptrack_hire:edit_hire', kwargs={'pk': key}))
+
 
 def approve_hire(request, **kwargs):
     key = kwargs['pk']
     return _set_flags_and_redirect(key, True, False)
 
+
 def reject_hire(request, **kwargs):
     key = kwargs['pk']
     return _set_flags_and_redirect(key, False, True)
 
-def unmark_hire(reqiest, **kwargs):
+
+def unmark_hire(request, **kwargs):
     key = kwargs['pk']
     return _set_flags_and_redirect(key, False, False)
 
-#endregion
 
-#region Adding and removing items from equipment list
+# endregion
+
+# region Adding and removing items from equipment list
 
 class UpdateAssetsView(View):
-    def get(self):
+    @staticmethod
+    def get():
         return HttpResponse()
 
-    def _float_or_none(self, str):
+    @staticmethod
+    def _float_or_none(s):
         try:
-            return float(str)
+            return float(s)
         except ValueError:
             return None
 
@@ -168,11 +180,12 @@ class UpdateAssetsView(View):
         asset_discount_price = self._float_or_none(data['discounted-price'])
 
         asset = Asset.objects.get(uid=asset_id)
-        binding = AllocatedEquipment(request=hire, asset=asset, discounted_price = asset_discount_price)
+        binding = AllocatedEquipment(request=hire, asset=asset, discounted_price=asset_discount_price)
         print(binding)
         binding.save()
 
         return HttpResponse()
+
 
 def remove_asset(request, **kwargs):
     hire = get_object_or_404(HireRequest, pk=kwargs['pk'])
@@ -181,12 +194,14 @@ def remove_asset(request, **kwargs):
     allocation = get_object_or_404(AllocatedEquipment, request=hire, asset=asset)
     allocation.delete()
 
-    return HttpResponseRedirect(reverse('keeptrack_hire:edit_hire', kwargs={'pk':hire.id}))
+    return HttpResponseRedirect(reverse('keeptrack_hire:edit_hire', kwargs={'pk': hire.id}))
+
 
 class UpdateCustomView(View):
-    def _float_or_404(self, str):
+    @staticmethod
+    def _float_or_404(s):
         try:
-            return float(str)
+            return float(s)
         except ValueError:
             raise Http404
 
@@ -210,20 +225,22 @@ def remove_custom(request, **kwargs):
     item = get_object_or_404(AllocatedCustomItems, pk=kwargs['item'])
     item.delete()
 
-    return HttpResponseRedirect(reverse('keeptrack_hire:edit_hire', kwargs={'pk':hire.id}))
+    return HttpResponseRedirect(reverse('keeptrack_hire:edit_hire', kwargs={'pk': hire.id}))
 
-#endregion
+
+# endregion
 
 class AvailableAssetsJsonView(View):
-    def _get_free_assets(self, hire):
+    @staticmethod
+    def _get_free_assets(hire):
         # Find all hires that overlap with current hire.
-        all_hires = HireRequest.objects             \
-            .filter(approved=True)                  \
-            .exclude(hire_from__gt=hire.hire_to)    \
+        all_hires = HireRequest.objects \
+            .filter(approved=True) \
+            .exclude(hire_from__gt=hire.hire_to) \
             .exclude(hire_to__lt=hire.hire_from)
 
         # Find all allocated assets associated with these hires.
-        allocated_assets = map(lambda hire: AllocatedEquipment.objects.filter(request=hire),
+        allocated_assets = map(lambda h: AllocatedEquipment.objects.filter(request=h),
                                all_hires)
         assets = Asset.objects.all()
         for qs in allocated_assets:
@@ -232,7 +249,8 @@ class AvailableAssetsJsonView(View):
 
         return assets
 
-    def _contains_all_words(self, text, asset):
+    @staticmethod
+    def _contains_all_words(text, asset):
         words = text.lower().split()
         for word in words:
             nincatg = word not in asset.category.lower()

@@ -38,9 +38,15 @@
             {{ form }}
             <tr>
                 <td colspan="2">
-                    <button type="submit" class="btn btn-primary right">Submit</button>
+                    <input type="submit" name="submit" class="btn btn-info right" value="Submit">
                 </td>
             </tr>
+            <tr>
+                <td>
+                    <input type="hidden" name="id" value="{{ id }}">
+                </td>
+            </tr>
+            {{ delete }}
         </table>
     </form>
     </div>

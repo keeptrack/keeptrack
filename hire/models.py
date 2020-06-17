@@ -3,12 +3,16 @@ from django.urls import reverse
 
 from equipment.models import Asset
 
+
 class HireRequest(models.Model):
     # Hire details
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=64)
     email = models.EmailField(max_length=254)
     cid = models.CharField(max_length=16, blank=True, null=True)
     is_event = False
+    is_hidden = models.BooleanField(default=False)
+    colour = models.CharField(max_length=7, default="#000000")
 
     # Hire info.
     hire_from = models.DateField(auto_now=False, auto_now_add=False)
@@ -30,16 +34,19 @@ class HireRequest(models.Model):
 
     @property
     def get_html_url(self):
-        url = reverse('cal:hire_edit', args=(self.id,))
-        return f'<a href="{url}"> {self.name} </a>'
+        url = reverse('keeptrack_hire:edit_hire', kwargs={'pk':self.id})
+        return f'<a href="{url}" style="color: white"> {self.name} </a>'
 
 
 class Event(models.Model):
     # Event Details
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=64)
     email = models.EmailField(max_length=254)
     cid = models.CharField(max_length=16, blank=True, null=True)
     is_event = True
+    is_hidden = models.BooleanField(default=False)
+    colour = models.CharField(max_length=7, default="#000000")
 
     # Hire info.
     event_from = models.DateField(auto_now=False, auto_now_add=False)
@@ -52,4 +59,4 @@ class Event(models.Model):
     @property
     def get_html_url(self):
         url = reverse('cal:event_edit', args=(self.id,))
-        return f'<a href="{url}"> {self.name} </a>'
+        return f'<a href="{url}" style="color: white"> {self.name} </a>'
