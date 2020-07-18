@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'hire',
-    'keeptrack.common',
+    'common',
     'keeptrack_hire',
     'widget_tweaks',
     'cal.apps.CalConfig',
